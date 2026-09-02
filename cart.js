@@ -139,6 +139,25 @@ function openWhatsappTextOnly(msg){
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
+/* ---------- new-order email notification (EmailJS) ---------- */
+const EMAILJS_PUBLIC_KEY = "YZpGnPL2AyTehA24i";
+const EMAILJS_SERVICE_ID = "service_1izeg3d";
+const EMAILJS_TEMPLATE_ID = "template_env3lf4";
+if(typeof emailjs !== "undefined"){
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+}
+function sendOrderEmail(customerName, customerPhone, customerEmail, itemsText, total){
+  if(typeof emailjs === "undefined") return;
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+    name: customerName || "Guest",
+    email: customerEmail || "",
+    customer_name: customerName || "Guest",
+    customer_phone: customerPhone || "",
+    order_items: itemsText,
+    order_total: total
+  }).catch(function(){ /* silent fail, order still saved in Firestore */ });
+}
+
 function saveOrderToFirestore(ids){
   if(typeof db === "undefined" || !window.currentUser) return;
   const items = ids.map(id=>({name: cart[id].name, qty: cart[id].qty, price: cart[id].price}));
@@ -147,6 +166,7 @@ function saveOrderToFirestore(ids){
 
   db.collection("users").doc(uid).get().then(function(userDoc){
     const userData = userDoc.exists ? userDoc.data() : {};
+    sendOrderEmail(userData.name, userData.phone, window.currentUser.email, buildItemsSummary(ids), total);
     return db.collection("orders").add({
       uid: uid,
       customerName: userData.name || "",

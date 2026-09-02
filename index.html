@@ -49,6 +49,44 @@
   <p>Lace, neckpieces, neck patches, phone covers and handmade mirror-work — order directly from Surat via WhatsApp</p>
 </div>
 
+<div class="banner-slider" id="bannerSlider">
+  <div class="banner-slides">
+    <div class="banner-slide active"><img src="images/banner1.jpg" alt="The Sahajanand Creation handmade work"></div>
+    <div class="banner-slide"><img src="images/banner2.jpg" alt="The Sahajanand Creation shop"></div>
+  </div>
+  <div class="banner-dots">
+    <span class="banner-dot active" onclick="goToSlide(0)"></span>
+    <span class="banner-dot" onclick="goToSlide(1)"></span>
+  </div>
+</div>
+<style>
+.banner-slider{ position:relative; max-width:900px; margin:0 auto 30px; overflow:hidden; }
+.banner-slides{ position:relative; width:100%; aspect-ratio:16/9; }
+.banner-slide{ position:absolute; inset:0; opacity:0; transition:opacity .6s ease; }
+.banner-slide.active{ opacity:1; }
+.banner-slide img{ width:100%; height:100%; object-fit:cover; display:block; }
+.banner-dots{ display:flex; justify-content:center; gap:8px; margin-top:10px; }
+.banner-dot{ width:9px; height:9px; border-radius:50%; background:var(--line); cursor:pointer; }
+.banner-dot.active{ background:var(--rani); }
+</style>
+<script>
+(function(){
+  const slides = document.querySelectorAll("#bannerSlider .banner-slide");
+  const dots = document.querySelectorAll("#bannerSlider .banner-dot");
+  let current = 0;
+  window.goToSlide = function(i){
+    slides[current].classList.remove("active");
+    dots[current].classList.remove("active");
+    current = i;
+    slides[current].classList.add("active");
+    dots[current].classList.add("active");
+  };
+  setInterval(function(){
+    goToSlide((current + 1) % slides.length);
+  }, 4000);
+})();
+</script>
+
 <main>
   <div class="cat-cards">
     <a class="cat-card" href="lace.html"><span class="mirror"></span><h3>Lace</h3><span>2 Designs</span></a>
@@ -91,6 +129,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="firebase-config.js"></script>
 <script src="cart.js"></script>
 
