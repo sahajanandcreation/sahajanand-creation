@@ -38,8 +38,22 @@
 .track-row .t-date{ font-size:12px; color:var(--muted); }
 .track-row .t-total{ font-size:14px; font-weight:700; color:var(--rani-deep); margin-top:2px; }
 .status-badge{ font-size:11.5px; padding:5px 12px; font-weight:600; white-space:nowrap; }
-.status-badge.New{ background:#FCE9CE; color:var(--marigold-deep); }
-.status-badge.Completed{ background:#DCEEDF; color:var(--green); }
+.status-badge.OrderPlaced{ background:#FCE9CE; color:var(--marigold-deep); }
+.status-badge.Packed{ background:#E4E1F5; color:#5B4FA3; }
+.status-badge.Shipped{ background:#D6E7FB; color:#2B6CB0; }
+.status-badge.Delivered{ background:#DCEEDF; color:var(--green); }
+
+.progress-track{ display:flex; align-items:flex-start; margin:16px 0 6px; }
+.progress-step{ flex:1; text-align:center; position:relative; }
+.progress-step .dot{ width:20px; height:20px; border-radius:50%; background:var(--line); border:2px solid var(--line); margin:0 auto 8px; display:flex; align-items:center; justify-content:center; }
+.progress-step.done .dot{ background:var(--rani); border-color:var(--rani); }
+.progress-step .dot::after{ content:""; color:#fff; font-size:11px; }
+.progress-step.done .dot::after{ content:"✓"; }
+.progress-step .line{ position:absolute; top:9px; left:-50%; width:100%; height:2px; background:var(--line); z-index:-1; }
+.progress-step:first-child .line{ display:none; }
+.progress-step.done .line{ background:var(--rani); }
+.progress-step .lbl{ font-size:11px; color:var(--muted); }
+.progress-step.done .lbl{ color:var(--rani-deep); font-weight:600; }
 
 .order-card{ background:var(--card); border:1px solid var(--line); padding:16px 18px; margin-bottom:12px; }
 .order-card .order-top{ display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:var(--muted); margin-bottom:8px; flex-wrap:wrap; gap:8px; }
@@ -172,6 +186,20 @@ function loadAccount(user){
   });
 }
 
+const ORDER_STAGES = ["Order Placed","Packed","Shipped","Delivered"];
+function normalizeStatus(s){
+  if(s === "New") return "Order Placed";
+  if(s === "Completed") return "Delivered";
+  return ORDER_STAGES.includes(s) ? s : "Order Placed";
+}
+function buildProgressHtml(status){
+  const idx = ORDER_STAGES.indexOf(status);
+  return '<div class="progress-track">' + ORDER_STAGES.map(function(s, i){
+    return '<div class="progress-step' + (i<=idx ? ' done' : '') + '">'
+      + '<div class="line"></div><div class="dot"></div><div class="lbl">'+s+'</div></div>';
+  }).join("") + '</div>';
+}
+
 function switchSettingsTab(name){
   ["track","orders"].forEach(function(t){
     document.getElementById("tab-"+t).style.display = (t===name) ? "block" : "none";
@@ -191,14 +219,18 @@ function renderTrackTab(){
     return;
   }
   el.innerHTML = myOrders.map(function(o){
-    const status = o.status || "New";
+    const status = normalizeStatus(o.status);
+    const statusClass = status.replace(/\s+/g,"");
     return `
-      <div class="track-row">
-        <div>
-          <div class="t-date">${fmtDate(o)}</div>
-          <div class="t-total">₹${o.total}</div>
+      <div class="track-row" style="flex-direction:column; align-items:stretch;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div>
+            <div class="t-date">${fmtDate(o)}</div>
+            <div class="t-total">₹${o.total}</div>
+          </div>
+          <span class="status-badge ${statusClass}">${status}</span>
         </div>
-        <span class="status-badge ${status}">${status}</span>
+        ${buildProgressHtml(status)}
       </div>
     `;
   }).join("");
@@ -212,11 +244,12 @@ function renderOrdersTab(){
     return;
   }
   el.innerHTML = myOrders.map(function(o){
-    const status = o.status || "New";
+    const status = normalizeStatus(o.status);
+    const statusClass = status.replace(/\s+/g,"");
     const itemsText = (o.items || []).map(function(it){ return `${it.name} x ${it.qty}`; }).join(", ");
     return `
       <div class="order-card">
-        <div class="order-top"><span>${fmtDate(o)}</span><span class="status-badge ${status}">${status}</span></div>
+        <div class="order-top"><span>${fmtDate(o)}</span><span class="status-badge ${statusClass}">${status}</span></div>
         <div class="order-items">${itemsText}</div>
         <div class="order-total">₹${o.total}</div>
       </div>

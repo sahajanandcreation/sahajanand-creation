@@ -50,10 +50,12 @@ body{ background:var(--ivory); }
 .order-card .row2{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
 .order-total{ font-size:15px; font-weight:700; color:var(--rani-deep); }
 .status-badge{ font-size:11px; padding:4px 10px; font-weight:600; }
-.status-badge.New{ background:#FCE9CE; color:var(--marigold-deep); }
-.status-badge.Completed{ background:#DCEEDF; color:var(--green); }
-.order-actions button{ background:none; border:1px solid var(--line); padding:6px 12px; font-family:inherit; font-size:11.5px; cursor:pointer; color:var(--ink-soft); }
-.order-actions button:hover{ border-color:var(--rani); color:var(--rani-deep); }
+.status-badge.OrderPlaced{ background:#FCE9CE; color:var(--marigold-deep); }
+.status-badge.Packed{ background:#E4E1F5; color:#5B4FA3; }
+.status-badge.Shipped{ background:#D6E7FB; color:#2B6CB0; }
+.status-badge.Delivered{ background:#DCEEDF; color:var(--green); }
+.order-actions select{ background:var(--ivory); border:1px solid var(--line); padding:6px 10px; font-family:inherit; font-size:11.5px; cursor:pointer; color:var(--ink-soft); }
+.order-actions select:hover{ border-color:var(--rani); color:var(--rani-deep); }
 .empty-msg, .loading-msg{ text-align:center; color:var(--muted); font-size:13.5px; padding:34px 0; }
 
 /* products */
@@ -142,8 +144,10 @@ body{ background:var(--ivory); }
 
       <div class="status-filter">
         <button class="active" data-f="All" onclick="setOrderFilter('All')">All</button>
-        <button data-f="New" onclick="setOrderFilter('New')">New</button>
-        <button data-f="Completed" onclick="setOrderFilter('Completed')">Completed</button>
+        <button data-f="Order Placed" onclick="setOrderFilter('Order Placed')">Order Placed</button>
+        <button data-f="Packed" onclick="setOrderFilter('Packed')">Packed</button>
+        <button data-f="Shipped" onclick="setOrderFilter('Shipped')">Shipped</button>
+        <button data-f="Delivered" onclick="setOrderFilter('Delivered')">Delivered</button>
       </div>
 
       <div id="ordersList"><div class="loading-msg">Loading orders...</div></div>
@@ -307,6 +311,12 @@ function switchTab(name){
 /* ================= ORDERS ================= */
 let allOrders = [];
 let orderFilter = "All";
+const ORDER_STAGES = ["Order Placed","Packed","Shipped","Delivered"];
+function normalizeStatus(s){
+  if(s === "New") return "Order Placed";
+  if(s === "Completed") return "Delivered";
+  return ORDER_STAGES.includes(s) ? s : "Order Placed";
+}
 
 function startOrdersListener(){
   db.collection("orders").orderBy("createdAt","desc").limit(300)
@@ -329,7 +339,7 @@ function setOrderFilter(f){
 function renderOrders(){
   const totalOrders = allOrders.length;
   const totalSales = allOrders.reduce(function(s,o){ return s+(o.total||0); },0);
-  const newCount = allOrders.filter(function(o){ return (o.status||"New")==="New"; }).length;
+  const newCount = allOrders.filter(function(o){ return normalizeStatus(o.status)!=="Delivered"; }).length;
   const todayStr = new Date().toDateString();
   const todaySales = allOrders.filter(function(o){
     return o.createdAt && o.createdAt.toDate && o.createdAt.toDate().toDateString()===todayStr;
@@ -341,7 +351,7 @@ function renderOrders(){
   document.getElementById("statNewOrders").textContent = newCount;
 
   let list = allOrders;
-  if(orderFilter !== "All") list = list.filter(function(o){ return (o.status||"New")===orderFilter; });
+  if(orderFilter !== "All") list = list.filter(function(o){ return normalizeStatus(o.status)===orderFilter; });
 
   const el = document.getElementById("ordersList");
   if(list.length === 0){ el.innerHTML = '<div class="empty-msg">No orders here yet</div>'; return; }
@@ -349,21 +359,24 @@ function renderOrders(){
   el.innerHTML = list.map(function(o){
     const date = (o.createdAt && o.createdAt.toDate) ? o.createdAt.toDate().toLocaleString("en-IN",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}) : "—";
     const itemsText = (o.items||[]).map(function(it){ return it.name+" x "+it.qty+" (₹"+(it.price*it.qty)+")"; }).join(", ");
-    const status = o.status || "New";
+    const status = normalizeStatus(o.status);
+    const statusClass = status.replace(/\s+/g,"");
     const custName = o.customerName || "Guest";
     const custPhone = o.customerPhone ? " · "+o.customerPhone : "";
-    const nextStatus = status === "New" ? "Completed" : "New";
+    const options = ORDER_STAGES.map(function(s){
+      return '<option value="'+s+'"'+(s===status?' selected':'')+'>'+s+'</option>';
+    }).join("");
     return '<div class="order-card">'
-      + '<div class="row1"><span>'+date+'</span><span class="status-badge '+status+'">'+status+'</span></div>'
+      + '<div class="row1"><span>'+date+'</span><span class="status-badge '+statusClass+'">'+status+'</span></div>'
       + '<div class="cust">'+custName+custPhone+'</div>'
       + '<div class="items">'+itemsText+'</div>'
       + '<div class="row2"><span class="order-total">₹'+o.total+'</span>'
-      + '<div class="order-actions"><button onclick="toggleOrderStatus(\''+o.docId+'\',\''+nextStatus+'\')">Mark as '+nextStatus+'</button></div></div>'
+      + '<div class="order-actions"><select onchange="setOrderStatus(\''+o.docId+'\',this.value)">'+options+'</select></div></div>'
       + '</div>';
   }).join("");
 }
 
-function toggleOrderStatus(docId, newStatus){
+function setOrderStatus(docId, newStatus){
   db.collection("orders").doc(docId).update({status:newStatus}).catch(function(err){ alert("Error: "+err.message); });
 }
 
