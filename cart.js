@@ -8,9 +8,10 @@ function renderProducts(gridId, productList){
   if(!el) return;
   el.innerHTML = productList.map(p=>{
     const unit = p.unit || "";
+    const safeName = p.name.replace(/'/g,"\\'");
     return `
     <div class="prod">
-      <div class="prod-art"><img src="${p.img}" alt="${p.name}"></div>
+      <div class="prod-art" onclick="openLightbox('${p.img}','${safeName}')"><img src="${p.img}" alt="${p.name}"></div>
       <div class="prod-body">
         <div class="prod-name">${p.name}</div>
         <div class="prod-desc">${p.desc}</div>
@@ -19,6 +20,29 @@ function renderProducts(gridId, productList){
       </div>
     </div>`;
   }).join("");
+}
+
+/* ---------- product photo lightbox ---------- */
+function ensureLightbox(){
+  if(document.getElementById("photoLightbox")) return;
+  const div = document.createElement("div");
+  div.id = "photoLightbox";
+  div.className = "lightbox-overlay";
+  div.onclick = closeLightbox;
+  div.innerHTML = '<span class="lightbox-close">&times;</span><img id="lightboxImg" src="" alt="">';
+  document.body.appendChild(div);
+}
+function openLightbox(src, alt){
+  ensureLightbox();
+  const overlay = document.getElementById("photoLightbox");
+  const img = document.getElementById("lightboxImg");
+  img.src = src;
+  img.alt = alt || "";
+  overlay.classList.add("open");
+}
+function closeLightbox(){
+  const overlay = document.getElementById("photoLightbox");
+  if(overlay) overlay.classList.remove("open");
 }
 
 function loadCategoryProducts(gridId, category, fallbackList){
