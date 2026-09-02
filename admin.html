@@ -112,7 +112,10 @@ body{ background:var(--ivory); }
     <div class="sub">The Sahajanand Creation — staff only</div>
     <div class="field">
       <label>Password</label>
-      <input type="password" id="adminPassword" placeholder="Enter admin password">
+      <div style="position:relative;">
+        <input type="password" id="adminPassword" placeholder="Enter admin password" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="current-password" style="width:100%; box-sizing:border-box; padding-right:44px;">
+        <span onclick="const p=document.getElementById('adminPassword'); p.type = p.type==='password' ? 'text' : 'password';" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer; font-size:13px; color:var(--muted); user-select:none;">Show</span>
+      </div>
     </div>
     <button class="auth-submit" id="adminLoginBtn" onclick="adminLogin()">Log In</button>
     <div class="auth-msg error" id="adminLoginMsg"></div>
