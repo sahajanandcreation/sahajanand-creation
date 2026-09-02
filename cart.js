@@ -15,7 +15,7 @@ function renderProducts(gridId, productList){
         <div class="prod-name">${p.name}</div>
         <div class="prod-desc">${p.desc}</div>
         <div class="price-row"><span class="prod-price">₹${p.price}${unit}</span></div>
-        <button class="add-btn" id="btn-${p.id}" onclick="addToCart('${p.id}','${p.name.replace(/'/g,"")}',${p.price})">કાર્ટમાં ઉમેરો</button>
+        <button class="add-btn" id="btn-${p.id}" onclick="addToCart('${p.id}','${p.name.replace(/'/g,"")}',${p.price})">Add to Cart</button>
       </div>
     </div>`;
   }).join("");
@@ -28,7 +28,7 @@ function addToCart(id, name, price){
   const btn = document.getElementById("btn-"+id);
   if(!btn) return;
   const original = btn.textContent;
-  btn.textContent = "ઉમેરાયું ✓";
+  btn.textContent = "Added ✓";
   btn.disabled = true;
   setTimeout(()=>{ btn.textContent = original; btn.disabled = false; }, 900);
 }
@@ -54,7 +54,7 @@ function updateCartUI(){
   const body = document.getElementById("drawerBody");
   if(body){
     if(ids.length === 0){
-      body.innerHTML = `<div class="cart-empty">તમારી કાર્ટ ખાલી છે<br>પ્રોડક્ટ પસંદ કરીને ઉમેરો</div>`;
+      body.innerHTML = `<div class="cart-empty">Your cart is empty<br>Select a product to add it</div>`;
     } else {
       body.innerHTML = ids.map(id=>{
         const it = cart[id];
@@ -67,7 +67,7 @@ function updateCartUI(){
               <button onclick="changeQty('${id}',-1)">−</button>
               <span>${it.qty}</span>
               <button onclick="changeQty('${id}',1)">+</button>
-              <button class="cart-item-remove" onclick="removeItem('${id}')">દૂર કરો</button>
+              <button class="cart-item-remove" onclick="removeItem('${id}')">Remove</button>
             </div>
           </div>
         </div>`;
@@ -90,14 +90,14 @@ function closeCart(){
 }
 
 function buildOrderText(ids){
-  let msg = "નમસ્તે, મારે નીચેની વસ્તુઓ ઓર્ડર કરવી છે:\n\n";
+  let msg = "Hello, I would like to order the following items:\n\n";
   let total = 0;
   ids.forEach(id=>{
     const it = cart[id];
     msg += `• ${it.name} x ${it.qty} = ₹${it.price*it.qty}\n`;
     total += it.price*it.qty;
   });
-  msg += `\nકુલ રકમ: ₹${total}`;
+  msg += `\nTotal Amount: ₹${total}`;
   return msg;
 }
 
@@ -148,7 +148,7 @@ function saveOrderToFirestore(ids){
 function sendOrder(){
   const ids = Object.keys(cart);
   if(ids.length === 0){
-    alert("કૃપા કરી પહેલા કાર્ટમાં પ્રોડક્ટ ઉમેરો");
+    alert("Please add a product to the cart first");
     return;
   }
   const msg = buildOrderText(ids);

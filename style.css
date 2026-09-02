@@ -15,10 +15,10 @@
 *{box-sizing:border-box; margin:0; padding:0;}
 body{
   background:var(--ivory);
-  font-family:'Noto Sans Gujarati', sans-serif;
+  font-family:'Poppins', sans-serif;
   color:var(--ink);
 }
-h1,h2,h3,.disp{ font-family:'Noto Serif Gujarati', serif; font-weight:600; letter-spacing:0.2px; }
+h1,h2,h3,.disp{ font-family:'Playfair Display', serif; font-weight:600; letter-spacing:0.2px; }
 a{ color:inherit; }
 
 /* ---------- signature motif: mirror-diamond ---------- */
@@ -57,7 +57,7 @@ header{
 .head-row{ display:flex; align-items:center; gap:16px; max-width:1080px; margin:0 auto; flex-wrap:wrap; }
 .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); }
 .brand img{ width:38px; height:38px; border-radius:50%; object-fit:cover; flex-shrink:0; border:1px solid var(--line); }
-.brand-name{ font-family:'Noto Serif Gujarati', serif; font-size:19px; font-weight:600; color:var(--ink); }
+.brand-name{ font-family:'Playfair Display', serif; font-size:19px; font-weight:600; color:var(--ink); }
 .head-actions{ display:flex; align-items:center; gap:14px; margin-left:auto; }
 .account-link{
   font-size:13px; font-weight:600; color:var(--rani-deep); text-decoration:none;
@@ -233,7 +233,7 @@ footer .foot-links a:hover{ text-decoration:underline; }
   display:flex; align-items:center; justify-content:space-between;
 }
 .points-card .points-label{ font-size:12.5px; color:#C9BFB0; }
-.points-card .points-value{ font-size:26px; font-weight:700; color:var(--marigold); font-family:'Noto Serif Gujarati', serif; }
+.points-card .points-value{ font-size:26px; font-weight:700; color:var(--marigold); font-family:'Playfair Display', serif; }
 .order-history{ margin-top:24px; }
 .order-row{ background:var(--card); border:1px solid var(--line); padding:16px 18px; margin-bottom:12px; }
 .order-row-head{ display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-bottom:8px; }
