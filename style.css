@@ -1,7 +1,7 @@
 :root{
   --ink:#221C2E;
   --ink-soft:#4A4160;
-  --ivory:#FBF6EC;
+  --ivory:#F3E9DC;
   --card:#FFFFFF;
   --marigold:#E0A53D;
   --marigold-deep:#B9822A;
@@ -11,6 +11,8 @@
   --line:#E7DFCE;
   --muted:#8A8071;
   --green:#3F8F5F;
+  --wine:#3A0E1C;
+  --wine-soft:#5C1E30;
 }
 *{box-sizing:border-box; margin:0; padding:0;}
 body{
@@ -20,6 +22,7 @@ body{
 }
 h1,h2,h3,.disp{ font-family:'Playfair Display', serif; font-weight:600; letter-spacing:0.2px; }
 a{ color:inherit; }
+.eyebrow{ text-transform:uppercase; letter-spacing:2.5px; font-size:11.5px; font-weight:700; color:var(--rani-deep); display:block; margin-bottom:14px; }
 
 /* ---------- signature motif: mirror-diamond ---------- */
 .mirror{
@@ -54,7 +57,7 @@ header{
   padding:14px 20px;
   position:sticky; top:0; z-index:50;
 }
-.head-row{ display:flex; align-items:center; gap:16px; max-width:1080px; margin:0 auto; flex-wrap:wrap; }
+.head-row{ display:flex; align-items:center; gap:16px; max-width:1180px; margin:0 auto; flex-wrap:wrap; }
 .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); }
 .brand img{ width:38px; height:38px; border-radius:50%; object-fit:cover; flex-shrink:0; border:1px solid var(--line); }
 .brand-name{ font-family:'Playfair Display', serif; font-size:19px; font-weight:600; color:var(--ink); }
@@ -92,7 +95,7 @@ header{
   overflow-x:auto;
   white-space:nowrap;
 }
-.catnav-inner{ max-width:1080px; margin:0 auto; display:flex; gap:2px; padding:0 20px; }
+.catnav-inner{ max-width:1180px; margin:0 auto; display:flex; gap:2px; padding:0 20px; }
 .catnav a{
   background:none; border:none; font-family:inherit;
   padding:13px 14px; font-size:13px; font-weight:500; color:var(--muted);
@@ -105,26 +108,35 @@ header{
 .hero{
   background:var(--ivory);
   color:var(--ink);
-  padding:56px 24px 44px;
+  padding:88px 24px 56px;
   text-align:center;
 }
 .hero .motif-row{ display:flex; justify-content:center; gap:10px; margin-bottom:22px; color:var(--rani); }
 .hero .motif-row .mirror:nth-child(2){ color:var(--marigold); width:13px; height:13px; }
 .hero .motif-row .mirror:nth-child(3){ color:var(--thread); }
-.hero h1{ font-size:34px; margin-bottom:12px; color:var(--ink); }
-.hero p{ color:var(--ink-soft); font-size:15px; max-width:420px; margin:0 auto; line-height:1.7; }
+.hero h1{ font-size:46px; margin-bottom:16px; color:var(--ink); }
+.hero p{ color:var(--ink-soft); font-size:16px; max-width:520px; margin:0 auto; line-height:1.8; }
+.hero-ctas{ display:flex; gap:14px; justify-content:center; margin-top:30px; flex-wrap:wrap; }
+.hero-btn{
+  padding:14px 30px; font-family:inherit; font-size:12.5px; font-weight:700; letter-spacing:1px;
+  text-transform:uppercase; text-decoration:none; cursor:pointer; transition:opacity .15s ease;
+}
+.hero-btn.solid{ background:var(--rani); color:#fff; border:1px solid var(--rani); }
+.hero-btn.solid:hover{ opacity:0.88; }
+.hero-btn.outline{ background:none; color:var(--ink); border:1px solid var(--ink); }
+.hero-btn.outline:hover{ background:var(--ink); color:var(--ivory); }
 
 /* ---------- page head (category/info pages) ---------- */
 .page-head{
   background:var(--ivory);
   border-bottom:1px solid var(--line);
-  padding:34px 24px 28px;
+  padding:56px 24px 44px;
   text-align:center;
 }
-.page-head h1{ font-size:25px; color:var(--ink); }
-.page-head p{ font-size:13.5px; color:var(--ink-soft); margin-top:6px; }
+.page-head h1{ font-size:36px; color:var(--ink); }
+.page-head p{ font-size:14.5px; color:var(--ink-soft); margin-top:10px; max-width:480px; margin-left:auto; margin-right:auto; line-height:1.7; }
 
-main{ max-width:1080px; margin:0 auto; padding:36px 20px 10px; }
+main{ max-width:1180px; margin:0 auto; padding:56px 20px 16px; }
 
 /* ---------- category cards (home) ---------- */
 .cat-cards{ display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:14px; margin:30px 0 10px; }
@@ -181,9 +193,9 @@ main{ max-width:1080px; margin:0 auto; padding:36px 20px 10px; }
 .gallery-empty .mirror{ color:var(--rani); margin-bottom:14px; width:14px; height:14px; }
 
 /* ---------- info pages (about/contact) ---------- */
-.info-block{ background:var(--card); border:1px solid var(--line); padding:26px 24px; margin-top:20px; }
-.info-block h3{ font-size:17px; margin-bottom:12px; color:var(--rani-deep); }
-.info-block p{ font-size:13.5px; margin-bottom:10px; line-height:1.8; color:var(--ink-soft); }
+.info-block{ background:var(--card); border:1px solid var(--line); padding:40px 36px; margin-top:20px; }
+.info-block h3{ font-size:22px; margin-bottom:14px; color:var(--rani-deep); }
+.info-block p{ font-size:14px; margin-bottom:12px; line-height:1.9; color:var(--ink-soft); }
 .info-list{ list-style:none; margin-top:14px; }
 .info-list li{ font-size:13.5px; padding:11px 0; border-bottom:1px solid var(--line); display:flex; gap:12px; align-items:center; }
 .info-list li:last-child{ border-bottom:none; }
@@ -192,13 +204,15 @@ main{ max-width:1080px; margin:0 auto; padding:36px 20px 10px; }
 
 /* ---------- footer ---------- */
 footer{
-  background:var(--ink); color:#C9BFB0; padding:36px 24px 26px; text-align:center; margin-top:36px;
+  background:var(--wine); color:#D9B9C4; padding:56px 24px 26px; margin-top:56px;
 }
-footer h3{ color:var(--ivory); font-size:18px; margin-bottom:8px; }
-footer p{ font-size:12.5px; line-height:1.7; }
-footer .foot-links{ margin-top:16px; font-size:12.5px; display:flex; gap:20px; justify-content:center; flex-wrap:wrap; }
+.foot-inner{ max-width:1180px; margin:0 auto; }
+footer h3{ color:var(--rani); font-size:22px; margin-bottom:10px; }
+footer p{ font-size:12.5px; line-height:1.8; max-width:340px; }
+footer .foot-links{ margin-top:16px; font-size:13px; display:flex; gap:20px; flex-wrap:wrap; }
 footer .foot-links a{ color:var(--marigold); text-decoration:none; }
 footer .foot-links a:hover{ text-decoration:underline; }
+.foot-copy{ border-top:1px solid var(--wine-soft); margin-top:36px; padding-top:20px; font-size:11.5px; color:#B994A1; text-align:center; }
 
 /* ---------- auth forms ---------- */
 .auth-block{ background:var(--card); border:1px solid var(--line); padding:30px 26px; margin:20px auto 0; max-width:400px; }
@@ -277,6 +291,9 @@ footer .foot-links a:hover{ text-decoration:underline; }
 .order-hint{ font-size:11px; color:var(--muted); text-align:center; margin-top:10px; }
 
 @media (max-width:480px){
-  .hero h1{ font-size:26px; }
+  .hero h1{ font-size:30px; }
+  .page-head h1{ font-size:26px; }
   .brand-name{ font-size:16.5px; }
+  main{ padding-top:38px; }
+  .hero{ padding:56px 20px 40px; }
 }
