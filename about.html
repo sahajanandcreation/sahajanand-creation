@@ -72,13 +72,120 @@
   <p>An Introduction to The Sahajanand Creation</p>
 </div>
 
+<div class="about-slider" id="aboutSlider">
+  <div class="as-slides">
+    <div class="as-slide active"><img src="images/banner1.jpg" alt="Handmade mirror-work and neckpiece craftsmanship"></div>
+    <div class="as-slide"><img src="images/banner2.jpg" alt="The Sahajanand Creation shop, Nana Varachha Surat"></div>
+    <div class="as-slide"><img src="images/l1.jpg" alt="Colorful shell-bead lace, handmade"></div>
+    <div class="as-slide"><img src="images/np1.jpg" alt="Handcrafted mirror-work neckpiece"></div>
+    <div class="as-slide"><img src="images/c1.jpg" alt="Handmade decorated phone cover"></div>
+  </div>
+  <div class="as-caption" id="asCaption">Handmade with care, in the heart of Surat</div>
+  <div class="as-dots" id="asDots">
+    <span class="as-dot active" onclick="goToAboutSlide(0)"></span>
+    <span class="as-dot" onclick="goToAboutSlide(1)"></span>
+    <span class="as-dot" onclick="goToAboutSlide(2)"></span>
+    <span class="as-dot" onclick="goToAboutSlide(3)"></span>
+    <span class="as-dot" onclick="goToAboutSlide(4)"></span>
+  </div>
+</div>
+<script>
+(function(){
+  const slides = document.querySelectorAll("#aboutSlider .as-slide");
+  const dots = document.querySelectorAll("#aboutSlider .as-dot");
+  const captionEl = document.getElementById("asCaption");
+  const captions = [
+    "Handmade with care, in the heart of Surat",
+    "Our shop — Nana Varachha, Surat",
+    "Colorful shell-bead lace, handmade",
+    "Mirror-work neckpieces, crafted by hand",
+    "Decorated phone covers, made to order"
+  ];
+  let current = 0;
+  window.goToAboutSlide = function(i){
+    slides[current].classList.remove("active");
+    dots[current].classList.remove("active");
+    current = i;
+    slides[current].classList.add("active");
+    dots[current].classList.add("active");
+    captionEl.textContent = captions[current];
+  };
+  setInterval(function(){
+    goToAboutSlide((current + 1) % slides.length);
+  }, 4000);
+})();
+</script>
+
 <main>
   <div class="info-block">
     <h3>The Sahajanand Creation</h3>
     <p>We make and sell ladies' lace, neckpieces, phone covers and a range of small and large fancy items. Every product is handmade and crafted with good quality.</p>
     <p>Our shop is located in Nana Varachha, Surat, where you can visit in person to see our products, or order directly on WhatsApp.</p>
   </div>
+
+  <div class="inquire-block">
+    <h3>Inquire With Us</h3>
+    <div class="auth-sub">Have a question or want a custom order? Send us a quick inquiry on WhatsApp.</div>
+    <form class="inquire-form" id="inquireForm" onsubmit="sendInquiry(event)">
+      <div class="field">
+        <label for="inqName">Name</label>
+        <input type="text" id="inqName" placeholder="Your name" required>
+      </div>
+      <div class="field">
+        <label for="inqPhone">Phone / WhatsApp Number</label>
+        <input type="tel" id="inqPhone" placeholder="e.g. 98765 43210" required>
+      </div>
+      <div class="field">
+        <label for="inqMsg">Your Message</label>
+        <textarea id="inqMsg" placeholder="Tell us what you're looking for..." required></textarea>
+      </div>
+      <button type="submit" class="inquire-submit">💬 Send Inquiry on WhatsApp</button>
+    </form>
+  </div>
+
+  <div class="faq-block">
+    <h3>Frequently Asked Questions</h3>
+    <details class="faq-item">
+      <summary>Do you take custom orders?</summary>
+      <div class="faq-a">Yes, we make custom lace, neckpieces and phone covers as per your design, color and size requirements. Message us on WhatsApp with your idea.</div>
+    </details>
+    <details class="faq-item">
+      <summary>What are your shop timings?</summary>
+      <div class="faq-a">We are open daily from 10 AM to 8 PM at Nana Varachha, Surat.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Do you deliver outside Surat?</summary>
+      <div class="faq-a">Yes, we can ship products outside Surat. Please share your delivery address on WhatsApp and we'll confirm the shipping details.</div>
+    </details>
+    <details class="faq-item">
+      <summary>How can I place an order?</summary>
+      <div class="faq-a">You can add products to your cart on this website and send the order via WhatsApp, or message us directly on WhatsApp with what you'd like.</div>
+    </details>
+    <details class="faq-item">
+      <summary>What payment methods do you accept?</summary>
+      <div class="faq-a">We accept cash and UPI payments. Payment details will be shared once your order is confirmed on WhatsApp.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Can I exchange or return a product?</summary>
+      <div class="faq-a">Since most items are handmade or made to order, please check details carefully before ordering. For any issue with your order, contact us on WhatsApp and we'll do our best to help.</div>
+    </details>
+  </div>
 </main>
+
+<script>
+function sendInquiry(e){
+  e.preventDefault();
+  const name = document.getElementById("inqName").value.trim();
+  const phone = document.getElementById("inqPhone").value.trim();
+  const msg = document.getElementById("inqMsg").value.trim();
+  let text = "Hello, I have an inquiry:\n\n";
+  text += "Name: " + name + "\n";
+  text += "Phone: " + phone + "\n";
+  text += "Message: " + msg;
+  const url = "https://wa.me/917862061524?text=" + encodeURIComponent(text);
+  window.open(url, "_blank");
+}
+</script>
 
 
 <footer>

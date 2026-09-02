@@ -231,6 +231,54 @@ main{ max-width:1180px; margin:0 auto; padding:56px 20px 16px; }
 }
 .gallery-empty .mirror{ color:var(--rani); margin-bottom:14px; width:14px; height:14px; }
 
+/* ---------- about slider ---------- */
+.about-slider{ position:relative; margin-top:20px; overflow:hidden; background:var(--ink); }
+.about-slider .as-slides{ position:relative; width:100%; height:46vh; min-height:220px; max-height:420px; }
+.about-slider .as-slide{ position:absolute; inset:0; opacity:0; transition:opacity .7s ease; }
+.about-slider .as-slide.active{ opacity:1; }
+.about-slider .as-slide img{ width:100%; height:100%; object-fit:cover; display:block; }
+.about-slider .as-slide::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(0deg, rgba(20,14,20,0.72) 0%, rgba(20,14,20,0) 42%);
+}
+.as-caption{
+  position:absolute; left:0; right:0; bottom:16px; z-index:2; text-align:center;
+  color:#fff; font-size:13.5px; font-weight:600; letter-spacing:0.4px; padding:0 20px;
+}
+.as-dots{ position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; justify-content:center; gap:8px; padding:10px 0; }
+.as-dot{ width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.45); cursor:pointer; }
+.as-dot.active{ background:var(--marigold); }
+
+/* ---------- inquire form ---------- */
+.inquire-block{ background:var(--card); border:1px solid var(--line); padding:40px 36px; margin-top:28px; }
+.inquire-block h3{ font-size:22px; margin-bottom:8px; color:var(--rani-deep); }
+.inquire-block .auth-sub{ font-size:13px; color:var(--muted); margin-bottom:22px; }
+.inquire-form .field textarea{
+  width:100%; padding:10px 12px; border:1px solid var(--line); background:var(--ivory);
+  font-family:inherit; font-size:14px; color:var(--ink); resize:vertical; min-height:90px;
+}
+.inquire-form .field textarea:focus{ outline:none; border-color:var(--rani); }
+.inquire-submit{
+  background:#25D366; color:#fff; border:none; padding:13px 26px; border-radius:2px;
+  font-family:inherit; font-size:14px; font-weight:700; cursor:pointer;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.inquire-submit:hover{ filter:brightness(0.95); }
+
+/* ---------- FAQ ---------- */
+.faq-block{ margin-top:28px; }
+.faq-block > h3{ font-size:22px; margin-bottom:16px; color:var(--rani-deep); }
+.faq-item{ background:var(--card); border:1px solid var(--line); margin-bottom:10px; }
+.faq-item summary{
+  padding:16px 20px; font-size:14.5px; font-weight:600; color:var(--ink); cursor:pointer;
+  display:flex; align-items:center; justify-content:space-between; list-style:none;
+}
+.faq-item summary::-webkit-details-marker{ display:none; }
+.faq-item summary::after{ content:"+"; font-size:20px; color:var(--rani); font-weight:400; flex-shrink:0; margin-left:12px; }
+.faq-item[open] summary::after{ content:"−"; }
+.faq-item[open] summary{ border-bottom:1px solid var(--line); }
+.faq-item .faq-a{ padding:14px 20px 18px; font-size:13.5px; color:var(--ink-soft); line-height:1.8; }
+
 /* ---------- info pages (about/contact) ---------- */
 .info-block{ background:var(--card); border:1px solid var(--line); padding:40px 36px; margin-top:20px; }
 .info-block h3{ font-size:22px; margin-bottom:14px; color:var(--rani-deep); }
@@ -349,4 +397,7 @@ footer .foot-links a:hover{ text-decoration:underline; }
 
   .gallery-grid{ grid-template-columns:repeat(2, 1fr); gap:10px; }
   .gallery-grid img{ height:130px; }
+
+  .about-slider .as-slides{ height:34vh; min-height:180px; }
+  .inquire-block, .info-block{ padding:26px 20px; }
 }
