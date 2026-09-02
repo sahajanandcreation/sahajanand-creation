@@ -7,13 +7,14 @@
 <meta name="description" content="The Sahajanand Creation ની દુકાન અને પ્રોડક્ટ ગેલેરી.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Gujarati:wght@500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <meta name="google-site-verification" content="H-4CpB9gRQeHxYrhtZWuAPjMkgTi6A2uPE-c2OWqT1Q" />
+<meta name="google-site-verification" content="fSb9yDNNZ1McxvfspAiHTiLkvkRsMSWdWoyNAW6-Q4E" />
 </head>
 <body>
 
-<div class="offer-strip">આજની ડીલ: તમામ કેટેગરી પર ખાસ ભાવ • The Sahajanand Creation</div>
+<div class="tagline-strip"><span class="mirror"></span> હાથબનાવટ · સુરત · The Sahajanand Creation</div>
 
 <header>
   <div class="head-row">
@@ -22,6 +23,7 @@
       <span class="brand-name">The Sahajanand Creation</span>
     </a>
     <div class="head-actions">
+      <a href="login.html" id="accountLink" class="account-link">લોગિન</a>
       <button class="cart-btn" onclick="openCart()">🛒 કાર્ટ <span class="cart-count" id="cartCount">0</span></button>
     </div>
   </div>
@@ -32,6 +34,7 @@
     <a href="index.html">હોમ</a>
     <a href="lace.html">લેસ</a>
     <a href="neckpiece.html">નેકપીસ</a>
+    <a href="neck-patch.html">નેક પેચ</a>
     <a href="cover.html">ફોન કવર</a>
     <a href="material.html">મટીરીયલ</a>
     <a href="gallery.html" class="active">ગેલેરી</a>
@@ -47,7 +50,8 @@
 
 <main>
   <div class="gallery-empty">
-    📸 દુકાનના ફોટા હજુ ઉમેરવાના બાકી છે<br>
+    <span class="mirror"></span><br>
+    દુકાનના ફોટા હજુ ઉમેરવાના બાકી છે<br>
     <span style="font-size:12px;">તમે અમને દુકાનના ફોટા મોકલો, અમે અહીં ઉમેરી દઈશું</span>
   </div>
 </main>
@@ -79,6 +83,10 @@
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
 <script src="cart.js"></script>
 
 </body>

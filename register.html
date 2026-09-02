@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>રજિસ્ટ્રેશન | The Sahajanand Creation</title>
+<meta name="description" content="The Sahajanand Creation પર નવું એકાઉન્ટ બનાવો.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Gujarati:wght@500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<meta name="google-site-verification" content="H-4CpB9gRQeHxYrhtZWuAPjMkgTi6A2uPE-c2OWqT1Q" />
+<meta name="google-site-verification" content="fSb9yDNNZ1McxvfspAiHTiLkvkRsMSWdWoyNAW6-Q4E" />
+<style>
+.auth-box{ max-width:400px; margin:0 auto; background:var(--card); border:1px solid var(--line); padding:28px 26px; }
+.auth-box h2{ font-size:20px; margin-bottom:6px; color:var(--ink); }
+.auth-box .sub{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+.field{ margin-bottom:16px; }
+.field label{ display:block; font-size:12.5px; color:var(--ink-soft); margin-bottom:6px; }
+.field input{
+  width:100%; padding:10px 12px; border:1px solid var(--line); font-family:inherit; font-size:13.5px;
+  background:var(--ivory); color:var(--ink);
+}
+.field input:focus{ outline:none; border-color:var(--rani); }
+.auth-submit{
+  width:100%; background:var(--ink); color:var(--ivory); border:none; padding:12px;
+  font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; margin-top:6px;
+}
+.auth-submit:hover{ background:var(--rani-deep); }
+.auth-msg{ font-size:12.5px; margin-top:14px; text-align:center; min-height:18px; }
+.auth-msg.error{ color:#B0392B; }
+.auth-msg.success{ color:var(--green); }
+.auth-switch{ font-size:12.5px; text-align:center; margin-top:18px; color:var(--muted); }
+.auth-switch a{ color:var(--rani-deep); text-decoration:none; font-weight:600; }
+</style>
+</head>
+<body>
+
+<div class="tagline-strip"><span class="mirror"></span> હાથબનાવટ · સુરત · The Sahajanand Creation</div>
+
+<header>
+  <div class="head-row">
+    <a href="index.html" class="brand">
+      <img src="images/logo.jpg" alt="The Sahajanand Creation">
+      <span class="brand-name">The Sahajanand Creation</span>
+    </a>
+    <div class="head-actions">
+      <a href="login.html" id="accountLink" class="account-link">લોગિન</a>
+      <button class="cart-btn" onclick="openCart()">🛒 કાર્ટ <span class="cart-count" id="cartCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<nav class="catnav">
+  <div class="catnav-inner">
+    <a href="index.html">હોમ</a>
+    <a href="lace.html">લેસ</a>
+    <a href="neckpiece.html">નેકપીસ</a>
+    <a href="neck-patch.html">નેક પેચ</a>
+    <a href="cover.html">ફોન કવર</a>
+    <a href="material.html">મટીરીયલ</a>
+    <a href="gallery.html">ગેલેરી</a>
+    <a href="about.html">અમારા વિશે</a>
+    <a href="contact.html">સંપર્ક</a>
+  </div>
+</nav>
+
+
+<div class="page-head">
+  <h1 class="disp">નવું એકાઉન્ટ બનાવો</h1>
+  <p>ઓર્ડર હિસ્ટ્રી અને લોયલ્ટી પોઈન્ટ મેળવવા માટે રજિસ્ટર કરો</p>
+</div>
+
+<main>
+  <div class="auth-box">
+    <h2>રજિસ્ટ્રેશન</h2>
+    <div class="sub">થોડી વિગત આપો, ખાતું તૈયાર થઈ જશે</div>
+
+    <form id="registerForm">
+      <div class="field">
+        <label>પૂરું નામ</label>
+        <input type="text" id="regName" required>
+      </div>
+      <div class="field">
+        <label>ફોન નંબર</label>
+        <input type="tel" id="regPhone" required pattern="[0-9]{10}" placeholder="9999999999">
+      </div>
+      <div class="field">
+        <label>ઈમેલ</label>
+        <input type="email" id="regEmail" required>
+      </div>
+      <div class="field">
+        <label>પાસવર્ડ (ઓછામાં ઓછા 6 અક્ષર)</label>
+        <input type="password" id="regPassword" required minlength="6">
+      </div>
+      <button type="submit" class="auth-submit" id="regSubmitBtn">એકાઉન્ટ બનાવો</button>
+      <div class="auth-msg" id="regMsg"></div>
+    </form>
+
+    <div class="auth-switch">પહેલેથી એકાઉન્ટ છે? <a href="login.html">લોગિન કરો</a></div>
+  </div>
+</main>
+
+<footer>
+  <h3 class="disp">The Sahajanand Creation</h3>
+  <p>દુ. નં.૧/૨ વંદના સોસા. વિ.-૧, સિવિલાઈઝ સ્કૂલની સામે, શ્યામધામ રોડ, નાના વરાછા, સુરત — રોજ સવારે 10 થી રાત્રે 8</p>
+  <div class="foot-links">
+    <a href="tel:+917862061524">📞 +91 78620 61524</a>
+    <a href="https://wa.me/917862061524" target="_blank">💬 વોટ્સએપ</a>
+    <a href="https://maps.app.goo.gl/JZdEfZn1fN9XXL476" target="_blank">📍 લોકેશન</a>
+    <a href="https://www.instagram.com/the_sahajanad_creation" target="_blank">📷 ઇન્સ્ટાગ્રામ</a>
+    <a href="https://chat.whatsapp.com/IouNLE7xyaT4wWQMUlgsi1" target="_blank">👥 વોટ્સએપ ગ્રુપ જોડાઓ</a>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>તમારી કાર્ટ</h3>
+    <button onclick="closeCart()">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot">
+    <div class="total-row"><span>કુલ રકમ</span><span id="totalAmt">₹0</span></div>
+    <button class="order-btn" onclick="sendOrder()">💬 વોટ્સએપ પર ઓર્ડર મોકલો</button>
+    <div class="order-hint">બટન દબાવતાં જ તમારો ઓર્ડર સીધો વોટ્સએપ પર જશે</div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="cart.js"></script>
+
+<script>
+document.getElementById("registerForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  const name = document.getElementById("regName").value.trim();
+  const phone = document.getElementById("regPhone").value.trim();
+  const email = document.getElementById("regEmail").value.trim();
+  const password = document.getElementById("regPassword").value;
+  const msgEl = document.getElementById("regMsg");
+  const btn = document.getElementById("regSubmitBtn");
+
+  msgEl.textContent = "";
+  msgEl.className = "auth-msg";
+  btn.disabled = true;
+  btn.textContent = "બનાવાય છે...";
+
+  auth.createUserWithEmailAndPassword(email, password)
+    .then(function(cred){
+      return db.collection("users").doc(cred.user.uid).set({
+        name: name,
+        phone: phone,
+        email: email,
+        loyaltyPoints: 0,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    })
+    .then(function(){
+      msgEl.textContent = "એકાઉન્ટ બની ગયું! રીડાયરેક્ટ થાય છે...";
+      msgEl.className = "auth-msg success";
+      setTimeout(function(){ window.location.href = "account.html"; }, 900);
+    })
+    .catch(function(err){
+      let text = "કંઈક ભૂલ થઈ, ફરી પ્રયત્ન કરો.";
+      if(err.code === "auth/email-already-in-use") text = "આ ઈમેલ પહેલેથી નોંધાયેલ છે, લોગિન કરો.";
+      else if(err.code === "auth/invalid-email") text = "ઈમેલ સાચું નથી.";
+      else if(err.code === "auth/weak-password") text = "પાસવર્ડ વધુ મજબૂત રાખો (ઓછામાં ઓછા 6 અક્ષર).";
+      msgEl.textContent = text;
+      msgEl.className = "auth-msg error";
+      btn.disabled = false;
+      btn.textContent = "એકાઉન્ટ બનાવો";
+    });
+});
+</script>
+
+</body>
+</html>

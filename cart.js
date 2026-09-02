@@ -126,6 +126,25 @@ function openWhatsappTextOnly(msg){
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
+function saveOrderToFirestore(ids){
+  if(typeof db === "undefined" || !window.currentUser) return;
+  const items = ids.map(id=>({name: cart[id].name, qty: cart[id].qty, price: cart[id].price}));
+  const total = ids.reduce((s,id)=>s+cart[id].price*cart[id].qty,0);
+  db.collection("orders").add({
+    uid: window.currentUser.uid,
+    items: items,
+    total: total,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){
+    const pointsEarned = Math.floor(total/100);
+    if(pointsEarned > 0){
+      db.collection("users").doc(window.currentUser.uid).update({
+        loyaltyPoints: firebase.firestore.FieldValue.increment(pointsEarned)
+      }).catch(function(){});
+    }
+  }).catch(function(err){ /* silent fail, order still goes via WhatsApp */ });
+}
+
 function sendOrder(){
   const ids = Object.keys(cart);
   if(ids.length === 0){
@@ -134,6 +153,7 @@ function sendOrder(){
   }
   const msg = buildOrderText(ids);
   logOrderToSheet(ids);
+  saveOrderToFirestore(ids);
   openWhatsappTextOnly(msg);
 }
 

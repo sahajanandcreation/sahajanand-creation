@@ -7,14 +7,14 @@
 <meta name="description" content="The Sahajanand Creation - લેડિઝ લેસ, નેકપીસ, ફોન કવર અને ફેન્સી મટીરીયલ. નાના વરાછા, સુરત.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Gujarati:wght@500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <meta name="google-site-verification" content="H-4CpB9gRQeHxYrhtZWuAPjMkgTi6A2uPE-c2OWqT1Q" />
-  <meta name="google-site-verification" content="fSb9yDNNZ1McxvfspAiHTiLkvkRsMSWdWoyNAW6-Q4E" />
+<meta name="google-site-verification" content="fSb9yDNNZ1McxvfspAiHTiLkvkRsMSWdWoyNAW6-Q4E" />
 </head>
 <body>
 
-<div class="offer-strip">આજની ડીલ: તમામ કેટેગરી પર ખાસ ભાવ • The Sahajanand Creation</div>
+<div class="tagline-strip"><span class="mirror"></span> હાથબનાવટ · સુરત · The Sahajanand Creation</div>
 
 <header>
   <div class="head-row">
@@ -23,6 +23,7 @@
       <span class="brand-name">The Sahajanand Creation</span>
     </a>
     <div class="head-actions">
+      <a href="login.html" id="accountLink" class="account-link">લોગિન</a>
       <button class="cart-btn" onclick="openCart()">🛒 કાર્ટ <span class="cart-count" id="cartCount">0</span></button>
     </div>
   </div>
@@ -33,6 +34,7 @@
     <a href="index.html" class="active">હોમ</a>
     <a href="lace.html">લેસ</a>
     <a href="neckpiece.html">નેકપીસ</a>
+    <a href="neck-patch.html">નેક પેચ</a>
     <a href="cover.html">ફોન કવર</a>
     <a href="material.html">મટીરીયલ</a>
     <a href="gallery.html">ગેલેરી</a>
@@ -42,19 +44,20 @@
 </nav>
 
 <div class="hero">
-  <span class="badge">🔥 મેગા સેલ લાઈવ</span>
+  <div class="motif-row"><span class="mirror"></span><span class="mirror"></span><span class="mirror"></span></div>
   <h1 class="disp">The Sahajanand Creation</h1>
-  <p>લેસ, નેકપીસ, ફોન કવર અને નાની-મોટી જરૂરિયાત — શ્રેષ્ઠ ભાવે, વોટ્સએપ પર સીધો ઓર્ડર</p>
+  <p>લેસ, નેકપીસ, નેક પેચ, ફોન કવર અને હાથબનાવટ મિરર-વર્ક — સુરતથી સીધો વોટ્સએપ પર ઓર્ડર</p>
 </div>
 
 <main>
   <div class="cat-cards">
-    <a class="cat-card" href="lace.html"><span class="emoji">🧵</span><h3>લેસ</h3><span>2 ડિઝાઇન</span></a>
-    <a class="cat-card" href="neckpiece.html"><span class="emoji">📿</span><h3>નેકપીસ</h3><span>5 ડિઝાઇન</span></a>
-    <a class="cat-card" href="cover.html"><span class="emoji">📱</span><h3>ફોન કવર</h3><span>3 ડિઝાઇન</span></a>
-    <a class="cat-card" href="material.html"><span class="emoji">✂️</span><h3>નાનું-મોટું મટીરીયલ</h3><span>4 ડિઝાઇન</span></a>
-    <a class="cat-card" href="gallery.html"><span class="emoji">🖼️</span><h3>ગેલેરી</h3><span>દુકાનના ફોટા</span></a>
-    <a class="cat-card" href="about.html"><span class="emoji">🙏</span><h3>અમારા વિશે</h3><span>જાણો અમારા વિશે</span></a>
+    <a class="cat-card" href="lace.html"><span class="mirror"></span><h3>લેસ</h3><span>2 ડિઝાઇન</span></a>
+    <a class="cat-card" href="neckpiece.html"><span class="mirror"></span><h3>નેકપીસ</h3><span>5 ડિઝાઇન</span></a>
+    <a class="cat-card" href="neck-patch.html"><span class="mirror"></span><h3>નેક પેચ</h3><span>17 ડિઝાઇન</span></a>
+    <a class="cat-card" href="cover.html"><span class="mirror"></span><h3>ફોન કવર</h3><span>3 ડિઝાઇન</span></a>
+    <a class="cat-card" href="material.html"><span class="mirror"></span><h3>નાનું-મોટું મટીરીયલ</h3><span>4 ડિઝાઇન</span></a>
+    <a class="cat-card" href="gallery.html"><span class="mirror"></span><h3>ગેલેરી</h3><span>દુકાનના ફોટા</span></a>
+    <a class="cat-card" href="about.html"><span class="mirror"></span><h3>અમારા વિશે</h3><span>જાણો અમારા વિશે</span></a>
   </div>
 </main>
 
@@ -85,6 +88,10 @@
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
 <script src="cart.js"></script>
 
 </body>

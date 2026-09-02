@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>મારું એકાઉન્ટ | The Sahajanand Creation</title>
+<meta name="description" content="તમારું એકાઉન્ટ, ઓર્ડર હિસ્ટ્રી અને લોયલ્ટી પોઈન્ટ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Gujarati:wght@500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<meta name="google-site-verification" content="H-4CpB9gRQeHxYrhtZWuAPjMkgTi6A2uPE-c2OWqT1Q" />
+<meta name="google-site-verification" content="fSb9yDNNZ1McxvfspAiHTiLkvkRsMSWdWoyNAW6-Q4E" />
+<style>
+.acct-head{
+  background:var(--card); border:1px solid var(--line); padding:24px;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;
+  margin-bottom:22px;
+}
+.acct-name{ font-size:18px; font-weight:600; color:var(--ink); }
+.acct-email{ font-size:12.5px; color:var(--muted); margin-top:2px; }
+.points-badge{
+  background:var(--ink); color:var(--ivory); padding:12px 20px; text-align:center;
+}
+.points-badge .num{ font-size:22px; font-weight:700; color:var(--marigold); }
+.points-badge .lbl{ font-size:11px; margin-top:2px; }
+.logout-btn{
+  background:transparent; border:1px solid var(--ink); color:var(--ink); padding:8px 16px;
+  font-family:inherit; font-size:12.5px; cursor:pointer;
+}
+.logout-btn:hover{ background:var(--ink); color:var(--ivory); }
+.order-card{ background:var(--card); border:1px solid var(--line); padding:16px 18px; margin-bottom:12px; }
+.order-card .order-top{ display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-bottom:8px; }
+.order-card .order-items{ font-size:13.5px; color:var(--ink-soft); line-height:1.7; }
+.order-card .order-total{ font-size:14px; font-weight:700; color:var(--rani-deep); margin-top:8px; }
+.loading-msg, .empty-msg{ text-align:center; color:var(--muted); font-size:13.5px; padding:30px 0; }
+</style>
+</head>
+<body>
+
+<div class="tagline-strip"><span class="mirror"></span> હાથબનાવટ · સુરત · The Sahajanand Creation</div>
+
+<header>
+  <div class="head-row">
+    <a href="index.html" class="brand">
+      <img src="images/logo.jpg" alt="The Sahajanand Creation">
+      <span class="brand-name">The Sahajanand Creation</span>
+    </a>
+    <div class="head-actions">
+      <a href="login.html" id="accountLink" class="account-link">લોગિન</a>
+      <button class="cart-btn" onclick="openCart()">🛒 કાર્ટ <span class="cart-count" id="cartCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<nav class="catnav">
+  <div class="catnav-inner">
+    <a href="index.html">હોમ</a>
+    <a href="lace.html">લેસ</a>
+    <a href="neckpiece.html">નેકપીસ</a>
+    <a href="neck-patch.html">નેક પેચ</a>
+    <a href="cover.html">ફોન કવર</a>
+    <a href="material.html">મટીરીયલ</a>
+    <a href="gallery.html">ગેલેરી</a>
+    <a href="about.html">અમારા વિશે</a>
+    <a href="contact.html">સંપર્ક</a>
+  </div>
+</nav>
+
+
+<div class="page-head">
+  <h1 class="disp">મારું એકાઉન્ટ</h1>
+  <p>તમારી પ્રોફાઇલ, લોયલ્ટી પોઈન્ટ અને ઓર્ડર હિસ્ટ્રી</p>
+</div>
+
+<main>
+  <div id="acctContent">
+    <div class="loading-msg">લોડ થાય છે...</div>
+  </div>
+</main>
+
+<footer>
+  <h3 class="disp">The Sahajanand Creation</h3>
+  <p>દુ. નં.૧/૨ વંદના સોસા. વિ.-૧, સિવિલાઈઝ સ્કૂલની સામે, શ્યામધામ રોડ, નાના વરાછા, સુરત — રોજ સવારે 10 થી રાત્રે 8</p>
+  <div class="foot-links">
+    <a href="tel:+917862061524">📞 +91 78620 61524</a>
+    <a href="https://wa.me/917862061524" target="_blank">💬 વોટ્સએપ</a>
+    <a href="https://maps.app.goo.gl/JZdEfZn1fN9XXL476" target="_blank">📍 લોકેશન</a>
+    <a href="https://www.instagram.com/the_sahajanad_creation" target="_blank">📷 ઇન્સ્ટાગ્રામ</a>
+    <a href="https://chat.whatsapp.com/IouNLE7xyaT4wWQMUlgsi1" target="_blank">👥 વોટ્સએપ ગ્રુપ જોડાઓ</a>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>તમારી કાર્ટ</h3>
+    <button onclick="closeCart()">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot">
+    <div class="total-row"><span>કુલ રકમ</span><span id="totalAmt">₹0</span></div>
+    <button class="order-btn" onclick="sendOrder()">💬 વોટ્સએપ પર ઓર્ડર મોકલો</button>
+    <div class="order-hint">બટન દબાવતાં જ તમારો ઓર્ડર સીધો વોટ્સએપ પર જશે</div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="cart.js"></script>
+
+<script>
+auth.onAuthStateChanged(function(user){
+  if(!user){
+    window.location.href = "login.html";
+    return;
+  }
+  loadAccount(user);
+});
+
+function loadAccount(user){
+  const content = document.getElementById("acctContent");
+
+  db.collection("users").doc(user.uid).get().then(function(doc){
+    const data = doc.exists ? doc.data() : {name: "", loyaltyPoints: 0};
+
+    content.innerHTML = `
+      <div class="acct-head">
+        <div>
+          <div class="acct-name">${data.name || "કસ્ટમર"}</div>
+          <div class="acct-email">${user.email}</div>
+        </div>
+        <div class="points-badge">
+          <div class="num">${data.loyaltyPoints || 0}</div>
+          <div class="lbl">લોયલ્ટી પોઈન્ટ</div>
+        </div>
+        <button class="logout-btn" onclick="doLogout()">લોગ આઉટ</button>
+      </div>
+      <h3 style="font-size:16px; margin-bottom:14px; color:var(--ink);">તમારા ઓર્ડર</h3>
+      <div id="ordersList"><div class="loading-msg">ઓર્ડર લોડ થાય છે...</div></div>
+    `;
+
+    return db.collection("orders").where("uid", "==", user.uid).orderBy("createdAt", "desc").get();
+  }).then(function(snap){
+    const ordersList = document.getElementById("ordersList");
+    if(!snap || snap.empty){
+      ordersList.innerHTML = `<div class="empty-msg">હજુ કોઈ ઓર્ડર નથી</div>`;
+      return;
+    }
+    ordersList.innerHTML = snap.docs.map(function(d){
+      const o = d.data();
+      const date = o.createdAt ? o.createdAt.toDate().toLocaleDateString("gu-IN", {day:"numeric", month:"short", year:"numeric"}) : "";
+      const itemsText = (o.items || []).map(function(it){ return `${it.name} x ${it.qty}`; }).join(", ");
+      return `
+        <div class="order-card">
+          <div class="order-top"><span>${date}</span></div>
+          <div class="order-items">${itemsText}</div>
+          <div class="order-total">₹${o.total}</div>
+        </div>
+      `;
+    }).join("");
+  }).catch(function(err){
+    document.getElementById("acctContent").innerHTML = `<div class="empty-msg">લોડ કરવામાં ભૂલ થઈ, ફરી પ્રયત્ન કરો.</div>`;
+  });
+}
+
+function doLogout(){
+  auth.signOut().then(function(){
+    window.location.href = "index.html";
+  });
+}
+</script>
+
+</body>
+</html>
