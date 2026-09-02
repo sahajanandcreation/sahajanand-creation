@@ -22,10 +22,10 @@ function reflectAuthUI(){
     window.currentUser = user;
     if(!accountLink) return;
     if(user){
-      accountLink.textContent = "સેટિંગ્સ";
+      accountLink.textContent = "Settings";
       accountLink.href = "account.html";
     } else {
-      accountLink.textContent = "લોગિન";
+      accountLink.textContent = "Login";
       accountLink.href = "login.html";
     }
   });
