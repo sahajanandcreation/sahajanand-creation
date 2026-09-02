@@ -87,12 +87,12 @@
 <script src="firebase-config.js"></script>
 <script src="cart.js"></script>
 <script>
-const coverProducts = [
+const coverProductsFallback = [
   {id:"c1", name:"Pearl Radha-Krishna Cover (with Keychain)", desc:"Silver finish, peacock feather design", price:1450, img:"images/c1.jpg"},
   {id:"c2", name:"Pearl Radha-Krishna Cover", desc:"With charms, premium finish", price:1450, img:"images/c2.jpg"},
   {id:"c3", name:"Golden Radha-Krishna Cover (with Keychain)", desc:"Gold finish, chandelier style", price:1450, img:"images/c3.jpg"}
 ];
-renderProducts("grid-cover", coverProducts);
+loadCategoryProducts("grid-cover", "cover", coverProductsFallback);
 </script>
 </body>
 </html>

@@ -87,14 +87,14 @@
 <script src="firebase-config.js"></script>
 <script src="cart.js"></script>
 <script>
-const neckProducts = [
+const neckProductsFallback = [
   {id:"p1", name:"Colorful Bead Neckpiece", desc:"Handmade, colorful embroidery", price:850, img:"images/p1.jpg"},
   {id:"p2", name:"Pearl-Crystal Neckpiece", desc:"White pearls and crystal work", price:700, img:"images/p2.jpg"},
   {id:"p3", name:"Wooden Bead Neckpiece (Design 1)", desc:"Multicolor wooden beads", price:1000, img:"images/p3.jpg"},
   {id:"p4", name:"Wooden Bead Neckpiece (Design 2)", desc:"A mix of shells and beads", price:1050, img:"images/p4.jpg"},
   {id:"p5", name:"Pastel Bead Neckpiece", desc:"Soft color embroidery design", price:999, img:"images/p5.jpg"}
 ];
-renderProducts("grid-neck", neckProducts);
+loadCategoryProducts("grid-neck", "neckpiece", neckProductsFallback);
 </script>
 </body>
 </html>

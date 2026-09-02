@@ -21,6 +21,19 @@ function renderProducts(gridId, productList){
   }).join("");
 }
 
+function loadCategoryProducts(gridId, category, fallbackList){
+  if(typeof db === "undefined"){ renderProducts(gridId, fallbackList); return; }
+  db.collection("products").where("category","==",category).get()
+    .then(function(snap){
+      if(snap.empty){ renderProducts(gridId, fallbackList); return; }
+      const list = snap.docs.map(function(d){ return d.data(); })
+        .filter(function(p){ return p.active !== false; })
+        .sort(function(a,b){ return (a.order||0)-(b.order||0); });
+      renderProducts(gridId, list.length ? list : fallbackList);
+    })
+    .catch(function(){ renderProducts(gridId, fallbackList); });
+}
+
 function addToCart(id, name, price){
   if(cart[id]) cart[id].qty += 1;
   else cart[id] = {name, price, qty:1};
@@ -130,15 +143,24 @@ function saveOrderToFirestore(ids){
   if(typeof db === "undefined" || !window.currentUser) return;
   const items = ids.map(id=>({name: cart[id].name, qty: cart[id].qty, price: cart[id].price}));
   const total = ids.reduce((s,id)=>s+cart[id].price*cart[id].qty,0);
-  db.collection("orders").add({
-    uid: window.currentUser.uid,
-    items: items,
-    total: total,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  const uid = window.currentUser.uid;
+
+  db.collection("users").doc(uid).get().then(function(userDoc){
+    const userData = userDoc.exists ? userDoc.data() : {};
+    return db.collection("orders").add({
+      uid: uid,
+      customerName: userData.name || "",
+      customerPhone: userData.phone || "",
+      customerEmail: window.currentUser.email || "",
+      items: items,
+      total: total,
+      status: "New",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
   }).then(function(){
     const pointsEarned = Math.floor(total/100);
     if(pointsEarned > 0){
-      db.collection("users").doc(window.currentUser.uid).update({
+      db.collection("users").doc(uid).update({
         loyaltyPoints: firebase.firestore.FieldValue.increment(pointsEarned)
       }).catch(function(){});
     }

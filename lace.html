@@ -87,11 +87,11 @@
 <script src="firebase-config.js"></script>
 <script src="cart.js"></script>
 <script>
-const laceProducts = [
+const laceProductsFallback = [
   {id:"l1", name:"Shell-Bead Lace (Design 1)", desc:"Colorful bead and shell work, by the meter", price:320, unit:"/meter", img:"images/l1.jpg"},
   {id:"l2", name:"Shell-Bead Lace (Design 2)", desc:"Zigzag bead pattern, by the meter", price:320, unit:"/meter", img:"images/l2.jpg"}
 ];
-renderProducts("grid-lace", laceProducts);
+loadCategoryProducts("grid-lace", "lace", laceProductsFallback);
 </script>
 </body>
 </html>

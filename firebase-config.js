@@ -22,7 +22,7 @@ function reflectAuthUI(){
     window.currentUser = user;
     if(!accountLink) return;
     if(user){
-      accountLink.textContent = "મારું એકાઉન્ટ";
+      accountLink.textContent = "સેટિંગ્સ";
       accountLink.href = "account.html";
     } else {
       accountLink.textContent = "લોગિન";

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Account | The Sahajanand Creation</title>
-<meta name="description" content="Your account, order history and loyalty points.">
+<title>Settings | The Sahajanand Creation</title>
+<meta name="description" content="Your account settings, order tracking and order history.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -29,8 +29,20 @@
   font-family:inherit; font-size:12.5px; cursor:pointer;
 }
 .logout-btn:hover{ background:var(--ink); color:var(--ivory); }
+
+.settings-tabs{ display:flex; gap:2px; border-bottom:1px solid var(--line); margin-bottom:18px; }
+.settings-tab{ background:none; border:none; font-family:inherit; padding:11px 16px; font-size:13.5px; font-weight:600; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; }
+.settings-tab.active{ color:var(--rani-deep); border-bottom-color:var(--rani); }
+
+.track-row{ background:var(--card); border:1px solid var(--line); padding:14px 18px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.track-row .t-date{ font-size:12px; color:var(--muted); }
+.track-row .t-total{ font-size:14px; font-weight:700; color:var(--rani-deep); margin-top:2px; }
+.status-badge{ font-size:11.5px; padding:5px 12px; font-weight:600; white-space:nowrap; }
+.status-badge.New{ background:#FCE9CE; color:var(--marigold-deep); }
+.status-badge.Completed{ background:#DCEEDF; color:var(--green); }
+
 .order-card{ background:var(--card); border:1px solid var(--line); padding:16px 18px; margin-bottom:12px; }
-.order-card .order-top{ display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-bottom:8px; }
+.order-card .order-top{ display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:var(--muted); margin-bottom:8px; flex-wrap:wrap; gap:8px; }
 .order-card .order-items{ font-size:13.5px; color:var(--ink-soft); line-height:1.7; }
 .order-card .order-total{ font-size:14px; font-weight:700; color:var(--rani-deep); margin-top:8px; }
 .loading-msg, .empty-msg{ text-align:center; color:var(--muted); font-size:13.5px; padding:30px 0; }
@@ -69,8 +81,8 @@
 
 
 <div class="page-head">
-  <h1 class="disp">My Account</h1>
-  <p>Your profile, loyalty points and order history</p>
+  <h1 class="disp">Settings</h1>
+  <p>Your profile, order tracking, order history and loyalty points</p>
 </div>
 
 <main>
@@ -112,6 +124,8 @@
 <script src="cart.js"></script>
 
 <script>
+let myOrders = [];
+
 auth.onAuthStateChanged(function(user){
   if(!user){
     window.location.href = "login.html";
@@ -138,32 +152,76 @@ function loadAccount(user){
         </div>
         <button class="logout-btn" onclick="doLogout()">Log Out</button>
       </div>
-      <h3 style="font-size:16px; margin-bottom:14px; color:var(--ink);">Your Orders</h3>
-      <div id="ordersList"><div class="loading-msg">Loading orders...</div></div>
+
+      <div class="settings-tabs">
+        <button class="settings-tab active" id="tabBtn-track" onclick="switchSettingsTab('track')">Track Order</button>
+        <button class="settings-tab" id="tabBtn-orders" onclick="switchSettingsTab('orders')">My Orders</button>
+      </div>
+
+      <div id="tab-track"><div class="loading-msg">Loading...</div></div>
+      <div id="tab-orders" style="display:none;"><div class="loading-msg">Loading...</div></div>
     `;
 
     return db.collection("orders").where("uid", "==", user.uid).orderBy("createdAt", "desc").get();
   }).then(function(snap){
-    const ordersList = document.getElementById("ordersList");
-    if(!snap || snap.empty){
-      ordersList.innerHTML = `<div class="empty-msg">No orders yet</div>`;
-      return;
-    }
-    ordersList.innerHTML = snap.docs.map(function(d){
-      const o = d.data();
-      const date = o.createdAt ? o.createdAt.toDate().toLocaleDateString("en-IN", {day:"numeric", month:"short", year:"numeric"}) : "";
-      const itemsText = (o.items || []).map(function(it){ return `${it.name} x ${it.qty}`; }).join(", ");
-      return `
-        <div class="order-card">
-          <div class="order-top"><span>${date}</span></div>
-          <div class="order-items">${itemsText}</div>
-          <div class="order-total">₹${o.total}</div>
-        </div>
-      `;
-    }).join("");
+    myOrders = (!snap || snap.empty) ? [] : snap.docs.map(function(d){ return d.data(); });
+    renderTrackTab();
+    renderOrdersTab();
   }).catch(function(err){
     document.getElementById("acctContent").innerHTML = `<div class="empty-msg">Error loading data, please try again.</div>`;
   });
+}
+
+function switchSettingsTab(name){
+  ["track","orders"].forEach(function(t){
+    document.getElementById("tab-"+t).style.display = (t===name) ? "block" : "none";
+    document.getElementById("tabBtn-"+t).classList.toggle("active", t===name);
+  });
+}
+
+function fmtDate(o){
+  return o.createdAt ? o.createdAt.toDate().toLocaleDateString("en-IN", {day:"numeric", month:"short", year:"numeric"}) : "";
+}
+
+function renderTrackTab(){
+  const el = document.getElementById("tab-track");
+  if(!el) return;
+  if(myOrders.length === 0){
+    el.innerHTML = `<div class="empty-msg">No orders yet</div>`;
+    return;
+  }
+  el.innerHTML = myOrders.map(function(o){
+    const status = o.status || "New";
+    return `
+      <div class="track-row">
+        <div>
+          <div class="t-date">${fmtDate(o)}</div>
+          <div class="t-total">₹${o.total}</div>
+        </div>
+        <span class="status-badge ${status}">${status}</span>
+      </div>
+    `;
+  }).join("");
+}
+
+function renderOrdersTab(){
+  const el = document.getElementById("tab-orders");
+  if(!el) return;
+  if(myOrders.length === 0){
+    el.innerHTML = `<div class="empty-msg">No orders yet</div>`;
+    return;
+  }
+  el.innerHTML = myOrders.map(function(o){
+    const status = o.status || "New";
+    const itemsText = (o.items || []).map(function(it){ return `${it.name} x ${it.qty}`; }).join(", ");
+    return `
+      <div class="order-card">
+        <div class="order-top"><span>${fmtDate(o)}</span><span class="status-badge ${status}">${status}</span></div>
+        <div class="order-items">${itemsText}</div>
+        <div class="order-total">₹${o.total}</div>
+      </div>
+    `;
+  }).join("");
 }
 
 function doLogout(){

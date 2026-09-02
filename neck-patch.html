@@ -87,7 +87,7 @@
 <script src="firebase-config.js"></script>
 <script src="cart.js"></script>
 <script>
-const neckPatchProducts = [
+const neckPatchProductsFallback = [
   {id:"np1", name:"Square Mirror-Work Neck Patch (Design 1)", desc:"Diamond shape, blue mirror work", price:450, img:"images/np1.jpg"},
   {id:"np2", name:"Heart Mirror-Work Neck Patch", desc:"Purple border, red-brown patchwork", price:350, img:"images/np2.jpg"},
   {id:"np3", name:"Square Mirror-Work Neck Patch (Design 2)", desc:"Navy blue, with shell tassels", price:450, img:"images/np3.jpg"},
@@ -106,7 +106,7 @@ const neckPatchProducts = [
   {id:"np16", name:"Square Mirror-Work Neck Patch (Design 6)", desc:"Colorful mirror, with shell tassels", price:450, img:"images/np16.jpg"},
   {id:"np17", name:"Full U-Collar Neck Patch", desc:"Full neckline design, mirror work", price:800, img:"images/np17.jpg"},
 ];
-renderProducts("grid-neckpatch", neckPatchProducts);
+loadCategoryProducts("grid-neckpatch", "neckpatch", neckPatchProductsFallback);
 </script>
 </body>
 </html>

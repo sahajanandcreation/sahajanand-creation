@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin | The Sahajanand Creation</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+body{ background:var(--ivory); }
+.admin-header{
+  background:var(--ink); color:var(--ivory); padding:16px 22px;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+}
+.admin-header .brand2{ display:flex; align-items:center; gap:10px; font-family:'Playfair Display',serif; font-size:18px; font-weight:600; }
+.admin-header .brand2 img{ width:34px; height:34px; border-radius:50%; object-fit:cover; }
+.admin-logout{ background:none; border:1px solid #6d6580; color:var(--ivory); padding:8px 14px; font-family:inherit; font-size:12.5px; cursor:pointer; }
+.admin-logout:hover{ border-color:var(--marigold); color:var(--marigold); }
+
+.admin-wrap{ max-width:1080px; margin:0 auto; padding:26px 20px 60px; }
+
+/* login */
+.login-wrap{ max-width:380px; margin:80px auto; background:var(--card); border:1px solid var(--line); padding:32px 28px; }
+.login-wrap h2{ font-size:20px; margin-bottom:4px; }
+.login-wrap .sub{ font-size:12.5px; color:var(--muted); margin-bottom:22px; }
+
+/* tabs */
+.admin-tabs{ display:flex; gap:2px; border-bottom:1px solid var(--line); margin-bottom:22px; }
+.admin-tab{ background:none; border:none; font-family:inherit; padding:11px 16px; font-size:13.5px; font-weight:600; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; }
+.admin-tab.active{ color:var(--rani-deep); border-bottom-color:var(--rani); }
+
+/* stat cards */
+.stat-row{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:24px; }
+.stat-card{ background:var(--card); border:1px solid var(--line); padding:16px 18px; }
+.stat-card .num{ font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:var(--rani-deep); }
+.stat-card .lbl{ font-size:11.5px; color:var(--muted); margin-top:2px; }
+
+/* order cards */
+.status-filter{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.status-filter button{ background:var(--card); border:1px solid var(--line); padding:7px 13px; font-family:inherit; font-size:12px; cursor:pointer; color:var(--ink-soft); }
+.status-filter button.active{ background:var(--ink); color:var(--ivory); border-color:var(--ink); }
+
+.order-card{ background:var(--card); border:1px solid var(--line); padding:16px 18px; margin-bottom:12px; }
+.order-card .row1{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:12px; color:var(--muted); margin-bottom:6px; }
+.order-card .cust{ font-size:13.5px; font-weight:600; color:var(--ink); }
+.order-card .items{ font-size:13px; color:var(--ink-soft); line-height:1.7; margin:8px 0; }
+.order-card .row2{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
+.order-total{ font-size:15px; font-weight:700; color:var(--rani-deep); }
+.status-badge{ font-size:11px; padding:4px 10px; font-weight:600; }
+.status-badge.New{ background:#FCE9CE; color:var(--marigold-deep); }
+.status-badge.Completed{ background:#DCEEDF; color:var(--green); }
+.order-actions button{ background:none; border:1px solid var(--line); padding:6px 12px; font-family:inherit; font-size:11.5px; cursor:pointer; color:var(--ink-soft); }
+.order-actions button:hover{ border-color:var(--rani); color:var(--rani-deep); }
+.empty-msg, .loading-msg{ text-align:center; color:var(--muted); font-size:13.5px; padding:34px 0; }
+
+/* products */
+.prod-toolbar{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px; }
+.cat-filter{ display:flex; gap:8px; flex-wrap:wrap; }
+.cat-filter button{ background:var(--card); border:1px solid var(--line); padding:7px 13px; font-family:inherit; font-size:12px; cursor:pointer; color:var(--ink-soft); }
+.cat-filter button.active{ background:var(--ink); color:var(--ivory); border-color:var(--ink); }
+.btn-primary{ background:var(--ink); color:var(--ivory); border:none; padding:10px 16px; font-family:inherit; font-size:12.5px; font-weight:600; cursor:pointer; }
+.btn-primary:hover{ background:var(--rani-deep); }
+.btn-ghost{ background:none; border:1px solid var(--line); padding:9px 15px; font-family:inherit; font-size:12px; cursor:pointer; color:var(--ink-soft); }
+.btn-ghost:hover{ border-color:var(--rani); color:var(--rani-deep); }
+
+.seed-box{ background:#FBF1DF; border:1px dashed var(--marigold-deep); padding:14px 16px; font-size:12.5px; color:var(--ink-soft); margin-bottom:18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
+
+.prod-table{ display:flex; flex-direction:column; gap:10px; }
+.prod-row{ background:var(--card); border:1px solid var(--line); padding:12px 14px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.prod-row img{ width:52px; height:52px; object-fit:cover; background:#F2ECDD; flex-shrink:0; }
+.prod-row .pinfo{ flex:1; min-width:160px; }
+.prod-row .pname{ font-size:13.5px; font-weight:600; color:var(--ink); }
+.prod-row .pmeta{ font-size:11.5px; color:var(--muted); margin-top:2px; }
+.prod-row .pprice{ font-size:14px; font-weight:700; color:var(--rani-deep); min-width:70px; }
+.prod-row.inactive{ opacity:0.5; }
+.prod-row .prow-actions{ display:flex; gap:8px; }
+.prod-row .prow-actions button{ background:none; border:1px solid var(--line); padding:6px 11px; font-family:inherit; font-size:11.5px; cursor:pointer; color:var(--ink-soft); }
+.prod-row .prow-actions button:hover{ border-color:var(--rani); color:var(--rani-deep); }
+
+/* modal */
+.modal-overlay{ position:fixed; inset:0; background:rgba(34,28,46,0.55); display:none; align-items:center; justify-content:center; z-index:200; padding:20px; }
+.modal-overlay.open{ display:flex; }
+.modal-box{ background:var(--card); max-width:440px; width:100%; max-height:90vh; overflow-y:auto; padding:24px; }
+.modal-box h3{ font-size:17px; margin-bottom:16px; }
+.modal-box .field{ margin-bottom:14px; }
+.modal-box .field label{ display:block; font-size:12px; color:var(--ink-soft); font-weight:600; margin-bottom:5px; }
+.modal-box .field input, .modal-box .field select, .modal-box .field textarea{
+  width:100%; padding:9px 11px; border:1px solid var(--line); background:var(--ivory); font-family:inherit; font-size:13.5px; color:var(--ink);
+}
+.modal-box .field textarea{ resize:vertical; min-height:56px; }
+.modal-box .field-row{ display:flex; gap:10px; }
+.modal-box .field-row .field{ flex:1; }
+.modal-box .checkbox-row{ display:flex; align-items:center; gap:8px; margin-bottom:16px; }
+.modal-box .checkbox-row input{ width:auto; }
+.modal-actions{ display:flex; gap:10px; margin-top:6px; }
+.modal-actions button{ flex:1; }
+.modal-msg{ font-size:12px; margin-top:10px; text-align:center; min-height:16px; }
+.modal-msg.error{ color:#B3261E; }
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN VIEW ============ -->
+<div id="loginView">
+  <div class="login-wrap">
+    <h2>Admin Login</h2>
+    <div class="sub">The Sahajanand Creation — staff only</div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="adminPassword" placeholder="Enter admin password">
+    </div>
+    <button class="auth-submit" id="adminLoginBtn" onclick="adminLogin()">Log In</button>
+    <div class="auth-msg error" id="adminLoginMsg"></div>
+  </div>
+</div>
+
+<!-- ============ DASHBOARD VIEW ============ -->
+<div id="dashView" style="display:none;">
+  <div class="admin-header">
+    <div class="brand2"><img src="images/logo.jpg" alt="logo"> Admin Panel</div>
+    <button class="admin-logout" onclick="adminLogout()">Log Out</button>
+  </div>
+
+  <div class="admin-wrap">
+    <div class="admin-tabs">
+      <button class="admin-tab active" id="tabBtn-orders" onclick="switchTab('orders')">Orders</button>
+      <button class="admin-tab" id="tabBtn-products" onclick="switchTab('products')">Products</button>
+      <button class="admin-tab" id="tabBtn-settings" onclick="switchTab('settings')">Settings</button>
+    </div>
+
+    <!-- ORDERS TAB -->
+    <div id="tab-orders">
+      <div class="stat-row">
+        <div class="stat-card"><div class="num" id="statTotalOrders">0</div><div class="lbl">Total Orders</div></div>
+        <div class="stat-card"><div class="num" id="statTotalSales">₹0</div><div class="lbl">Total Sales</div></div>
+        <div class="stat-card"><div class="num" id="statTodaySales">₹0</div><div class="lbl">Today's Sales</div></div>
+        <div class="stat-card"><div class="num" id="statNewOrders">0</div><div class="lbl">Pending Orders</div></div>
+      </div>
+
+      <div class="status-filter">
+        <button class="active" data-f="All" onclick="setOrderFilter('All')">All</button>
+        <button data-f="New" onclick="setOrderFilter('New')">New</button>
+        <button data-f="Completed" onclick="setOrderFilter('Completed')">Completed</button>
+      </div>
+
+      <div id="ordersList"><div class="loading-msg">Loading orders...</div></div>
+    </div>
+
+    <!-- PRODUCTS TAB -->
+    <div id="tab-products" style="display:none;">
+      <div class="seed-box" id="seedBox">
+        <span>પ્રથમ વખત: તમારી વેબસાઈટ ના હાલના products ને database માં import કરો (ફક્ત એક જ વાર ચલાવો).</span>
+        <button class="btn-ghost" onclick="seedProducts()">Import Current Products</button>
+      </div>
+
+      <div class="prod-toolbar">
+        <div class="cat-filter" id="catFilter">
+          <button class="active" data-c="all" onclick="setCatFilter('all')">All</button>
+          <button data-c="neckpiece" onclick="setCatFilter('neckpiece')">Neckpiece</button>
+          <button data-c="lace" onclick="setCatFilter('lace')">Lace</button>
+          <button data-c="neckpatch" onclick="setCatFilter('neckpatch')">Neck Patch</button>
+          <button data-c="cover" onclick="setCatFilter('cover')">Phone Cover</button>
+          <button data-c="material" onclick="setCatFilter('material')">Material</button>
+        </div>
+        <button class="btn-primary" onclick="openProductModal()">+ Add New Product</button>
+      </div>
+
+      <div id="productsList"><div class="loading-msg">Loading products...</div></div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div id="tab-settings" style="display:none;">
+      <div class="stat-card" style="max-width:420px; margin-bottom:16px;">
+        <div class="lbl" style="margin-bottom:8px;">Logged in as</div>
+        <div class="pname" style="font-size:14px; font-weight:600; color:var(--ink); margin-bottom:16px;" id="settingsEmail"></div>
+        <button class="btn-ghost" onclick="adminLogout()">Log Out</button>
+      </div>
+      <div class="order-card" style="max-width:520px;">
+        <div class="cust" style="margin-bottom:8px;">Password Change</div>
+        <div class="items">Admin password change થાય છે Firebase Console → Authentication → Users → (તમારો account) → Reset password. અથવા Login page પર "Forgot Password?" વાપરી શકાય.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PRODUCT ADD/EDIT MODAL ============ -->
+<div class="modal-overlay" id="prodModalOverlay">
+  <div class="modal-box">
+    <h3 id="prodModalTitle">Add Product</h3>
+    <input type="hidden" id="pf-docId">
+    <div class="field">
+      <label>Category</label>
+      <select id="pf-category">
+        <option value="neckpiece">Neckpiece</option>
+        <option value="lace">Lace</option>
+        <option value="neckpatch">Neck Patch</option>
+        <option value="cover">Phone Cover</option>
+        <option value="material">Material</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Product Name</label>
+      <input type="text" id="pf-name" placeholder="e.g. Pearl-Crystal Neckpiece">
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <textarea id="pf-desc" placeholder="Short description"></textarea>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Price (₹)</label>
+        <input type="number" id="pf-price" placeholder="850">
+      </div>
+      <div class="field">
+        <label>Unit (optional)</label>
+        <input type="text" id="pf-unit" placeholder="/meter">
+      </div>
+    </div>
+    <div class="field">
+      <label>Image path or URL</label>
+      <input type="text" id="pf-img" placeholder="images/p1.jpg">
+    </div>
+    <div class="field">
+      <label>Sort Order (lower shows first)</label>
+      <input type="number" id="pf-order" placeholder="1">
+    </div>
+    <div class="checkbox-row">
+      <input type="checkbox" id="pf-active" checked>
+      <label style="margin:0;">Show on website</label>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeProductModal()">Cancel</button>
+      <button class="btn-primary" id="prodSaveBtn" onclick="saveProduct()">Save Product</button>
+    </div>
+    <div class="modal-msg error" id="prodModalMsg"></div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+
+<script>
+/* ============================================================
+   IMPORTANT: This is the single admin account's email.
+   Create this exact user once — either via Firebase Console
+   (Authentication > Add user) or by registering normally on
+   register.html with this email — then set its password.
+   Only a signed-in user with this exact email can access this
+   page AND (per the Firestore rules you paste in) write to
+   products or read all orders.
+   ============================================================ */
+const ADMIN_EMAIL = "admin@sahajanand.com";
+
+const CAT_LABELS = {
+  neckpiece: "Neckpiece", lace: "Lace", neckpatch: "Neck Patch",
+  cover: "Phone Cover", material: "Material"
+};
+
+/* ---------- login ---------- */
+function adminLogin(){
+  const pw = document.getElementById("adminPassword").value;
+  const msg = document.getElementById("adminLoginMsg");
+  const btn = document.getElementById("adminLoginBtn");
+  msg.textContent = "";
+  if(!pw){ msg.textContent = "Please enter the password."; return; }
+  btn.disabled = true; btn.textContent = "Logging in...";
+  auth.signInWithEmailAndPassword(ADMIN_EMAIL, pw)
+    .catch(function(err){
+      msg.textContent = "Incorrect password.";
+      btn.disabled = false; btn.textContent = "Log In";
+    });
+}
+function adminLogout(){ auth.signOut(); }
+
+auth.onAuthStateChanged(function(user){
+  if(user && user.email === ADMIN_EMAIL){
+    document.getElementById("loginView").style.display = "none";
+    document.getElementById("dashView").style.display = "block";
+    document.getElementById("settingsEmail").textContent = user.email;
+    startOrdersListener();
+    loadProducts();
+  } else {
+    if(user && user.email !== ADMIN_EMAIL){
+      auth.signOut();
+      document.getElementById("adminLoginMsg").textContent = "This account does not have admin access.";
+    }
+    document.getElementById("loginView").style.display = "block";
+    document.getElementById("dashView").style.display = "none";
+    document.getElementById("adminLoginBtn").disabled = false;
+    document.getElementById("adminLoginBtn").textContent = "Log In";
+  }
+});
+
+/* ---------- tabs ---------- */
+function switchTab(name){
+  ["orders","products","settings"].forEach(function(t){
+    document.getElementById("tab-"+t).style.display = (t===name)?"block":"none";
+    document.getElementById("tabBtn-"+t).classList.toggle("active", t===name);
+  });
+}
+
+/* ================= ORDERS ================= */
+let allOrders = [];
+let orderFilter = "All";
+
+function startOrdersListener(){
+  db.collection("orders").orderBy("createdAt","desc").limit(300)
+    .onSnapshot(function(snap){
+      allOrders = snap.docs.map(function(d){ const o=d.data(); o.docId=d.id; return o; });
+      renderOrders();
+    }, function(err){
+      document.getElementById("ordersList").innerHTML = '<div class="empty-msg">Error loading orders: '+err.message+'</div>';
+    });
+}
+
+function setOrderFilter(f){
+  orderFilter = f;
+  document.querySelectorAll(".status-filter button").forEach(function(b){
+    b.classList.toggle("active", b.dataset.f === f);
+  });
+  renderOrders();
+}
+
+function renderOrders(){
+  const totalOrders = allOrders.length;
+  const totalSales = allOrders.reduce(function(s,o){ return s+(o.total||0); },0);
+  const newCount = allOrders.filter(function(o){ return (o.status||"New")==="New"; }).length;
+  const todayStr = new Date().toDateString();
+  const todaySales = allOrders.filter(function(o){
+    return o.createdAt && o.createdAt.toDate && o.createdAt.toDate().toDateString()===todayStr;
+  }).reduce(function(s,o){ return s+(o.total||0); },0);
+
+  document.getElementById("statTotalOrders").textContent = totalOrders;
+  document.getElementById("statTotalSales").textContent = "₹"+totalSales;
+  document.getElementById("statTodaySales").textContent = "₹"+todaySales;
+  document.getElementById("statNewOrders").textContent = newCount;
+
+  let list = allOrders;
+  if(orderFilter !== "All") list = list.filter(function(o){ return (o.status||"New")===orderFilter; });
+
+  const el = document.getElementById("ordersList");
+  if(list.length === 0){ el.innerHTML = '<div class="empty-msg">No orders here yet</div>'; return; }
+
+  el.innerHTML = list.map(function(o){
+    const date = (o.createdAt && o.createdAt.toDate) ? o.createdAt.toDate().toLocaleString("en-IN",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}) : "—";
+    const itemsText = (o.items||[]).map(function(it){ return it.name+" x "+it.qty+" (₹"+(it.price*it.qty)+")"; }).join(", ");
+    const status = o.status || "New";
+    const custName = o.customerName || "Guest";
+    const custPhone = o.customerPhone ? " · "+o.customerPhone : "";
+    const nextStatus = status === "New" ? "Completed" : "New";
+    return '<div class="order-card">'
+      + '<div class="row1"><span>'+date+'</span><span class="status-badge '+status+'">'+status+'</span></div>'
+      + '<div class="cust">'+custName+custPhone+'</div>'
+      + '<div class="items">'+itemsText+'</div>'
+      + '<div class="row2"><span class="order-total">₹'+o.total+'</span>'
+      + '<div class="order-actions"><button onclick="toggleOrderStatus(\''+o.docId+'\',\''+nextStatus+'\')">Mark as '+nextStatus+'</button></div></div>'
+      + '</div>';
+  }).join("");
+}
+
+function toggleOrderStatus(docId, newStatus){
+  db.collection("orders").doc(docId).update({status:newStatus}).catch(function(err){ alert("Error: "+err.message); });
+}
+
+/* ================= PRODUCTS ================= */
+let allProducts = [];
+let catFilter = "all";
+
+function loadProducts(){
+  db.collection("products").orderBy("category").get()
+    .then(function(snap){
+      allProducts = snap.docs.map(function(d){ const p=d.data(); p.docId=d.id; return p; })
+        .sort(function(a,b){ return (a.category||"").localeCompare(b.category||"") || (a.order||0)-(b.order||0); });
+      document.getElementById("seedBox").style.display = allProducts.length ? "none" : "flex";
+      renderProductsList();
+    })
+    .catch(function(err){
+      document.getElementById("productsList").innerHTML = '<div class="empty-msg">Error loading products: '+err.message+'</div>';
+    });
+}
+
+function setCatFilter(c){
+  catFilter = c;
+  document.querySelectorAll("#catFilter button").forEach(function(b){
+    b.classList.toggle("active", b.dataset.c === c);
+  });
+  renderProductsList();
+}
+
+function renderProductsList(){
+  let list = allProducts;
+  if(catFilter !== "all") list = list.filter(function(p){ return p.category === catFilter; });
+  const el = document.getElementById("productsList");
+  if(list.length === 0){ el.innerHTML = '<div class="empty-msg">No products in this category yet</div>'; return; }
+  el.innerHTML = list.map(function(p){
+    return '<div class="prod-row '+(p.active===false?"inactive":"")+'">'
+      + '<img src="'+p.img+'" alt="">'
+      + '<div class="pinfo"><div class="pname">'+p.name+'</div><div class="pmeta">'+(CAT_LABELS[p.category]||p.category)+(p.active===false?" · Hidden":"")+'</div></div>'
+      + '<div class="pprice">₹'+p.price+(p.unit||"")+'</div>'
+      + '<div class="prow-actions">'
+      + '<button onclick="editProduct(\''+p.docId+'\')">Edit</button>'
+      + '<button onclick="deleteProduct(\''+p.docId+'\',\''+p.name.replace(/'/g,"")+'\')">Delete</button>'
+      + '</div></div>';
+  }).join("");
+}
+
+function openProductModal(){
+  document.getElementById("prodModalTitle").textContent = "Add Product";
+  document.getElementById("pf-docId").value = "";
+  document.getElementById("pf-category").value = "neckpiece";
+  document.getElementById("pf-name").value = "";
+  document.getElementById("pf-desc").value = "";
+  document.getElementById("pf-price").value = "";
+  document.getElementById("pf-unit").value = "";
+  document.getElementById("pf-img").value = "";
+  document.getElementById("pf-order").value = "";
+  document.getElementById("pf-active").checked = true;
+  document.getElementById("prodModalMsg").textContent = "";
+  document.getElementById("prodModalOverlay").classList.add("open");
+}
+function closeProductModal(){ document.getElementById("prodModalOverlay").classList.remove("open"); }
+
+function editProduct(docId){
+  const p = allProducts.find(function(x){ return x.docId===docId; });
+  if(!p) return;
+  document.getElementById("prodModalTitle").textContent = "Edit Product";
+  document.getElementById("pf-docId").value = docId;
+  document.getElementById("pf-category").value = p.category;
+  document.getElementById("pf-name").value = p.name;
+  document.getElementById("pf-desc").value = p.desc || "";
+  document.getElementById("pf-price").value = p.price;
+  document.getElementById("pf-unit").value = p.unit || "";
+  document.getElementById("pf-img").value = p.img;
+  document.getElementById("pf-order").value = p.order || "";
+  document.getElementById("pf-active").checked = p.active !== false;
+  document.getElementById("prodModalMsg").textContent = "";
+  document.getElementById("prodModalOverlay").classList.add("open");
+}
+
+function saveProduct(){
+  const docId = document.getElementById("pf-docId").value;
+  const category = document.getElementById("pf-category").value;
+  const name = document.getElementById("pf-name").value.trim();
+  const desc = document.getElementById("pf-desc").value.trim();
+  const price = parseFloat(document.getElementById("pf-price").value);
+  const unit = document.getElementById("pf-unit").value.trim();
+  const img = document.getElementById("pf-img").value.trim();
+  const order = parseFloat(document.getElementById("pf-order").value) || 0;
+  const active = document.getElementById("pf-active").checked;
+  const msg = document.getElementById("prodModalMsg");
+
+  if(!name || !img || isNaN(price)){
+    msg.textContent = "Please fill in name, price and image.";
+    return;
+  }
+
+  const data = {category:category, name:name, desc:desc, price:price, unit:unit, img:img, order:order, active:active};
+  const btn = document.getElementById("prodSaveBtn");
+  btn.disabled = true; btn.textContent = "Saving...";
+
+  let op;
+  if(docId){
+    op = db.collection("products").doc(docId).update(data);
+  } else {
+    data.id = "prod_" + Date.now();
+    op = db.collection("products").add(data);
+  }
+  op.then(function(){
+    btn.disabled = false; btn.textContent = "Save Product";
+    closeProductModal();
+    loadProducts();
+  }).catch(function(err){
+    btn.disabled = false; btn.textContent = "Save Product";
+    msg.textContent = "Error: "+err.message;
+  });
+}
+
+function deleteProduct(docId, name){
+  if(!confirm('Delete "'+name+'"? This cannot be undone.')) return;
+  db.collection("products").doc(docId).delete().then(function(){
+    loadProducts();
+  }).catch(function(err){ alert("Error: "+err.message); });
+}
+
+/* ---------- one-time seed of existing hardcoded products ---------- */
+const SEED_PRODUCTS = [
+  {category:"neckpiece", id:"p1", name:"Colorful Bead Neckpiece", desc:"Handmade, colorful embroidery", price:850, img:"images/p1.jpg", order:1},
+  {category:"neckpiece", id:"p2", name:"Pearl-Crystal Neckpiece", desc:"White pearls and crystal work", price:700, img:"images/p2.jpg", order:2},
+  {category:"neckpiece", id:"p3", name:"Wooden Bead Neckpiece (Design 1)", desc:"Multicolor wooden beads", price:1000, img:"images/p3.jpg", order:3},
+  {category:"neckpiece", id:"p4", name:"Wooden Bead Neckpiece (Design 2)", desc:"A mix of shells and beads", price:1050, img:"images/p4.jpg", order:4},
+  {category:"neckpiece", id:"p5", name:"Pastel Bead Neckpiece", desc:"Soft color embroidery design", price:999, img:"images/p5.jpg", order:5},
+
+  {category:"lace", id:"l1", name:"Shell-Bead Lace (Design 1)", desc:"Colorful bead and shell work, by the meter", price:320, unit:"/meter", img:"images/l1.jpg", order:1},
+  {category:"lace", id:"l2", name:"Shell-Bead Lace (Design 2)", desc:"Zigzag bead pattern, by the meter", price:320, unit:"/meter", img:"images/l2.jpg", order:2},
+
+  {category:"neckpatch", id:"np1", name:"Square Mirror-Work Neck Patch (Design 1)", desc:"Diamond shape, blue mirror work", price:450, img:"images/np1.jpg", order:1},
+  {category:"neckpatch", id:"np2", name:"Heart Mirror-Work Neck Patch", desc:"Purple border, red-brown patchwork", price:350, img:"images/np2.jpg", order:2},
+  {category:"neckpatch", id:"np3", name:"Square Mirror-Work Neck Patch (Design 2)", desc:"Navy blue, with shell tassels", price:450, img:"images/np3.jpg", order:3},
+  {category:"neckpatch", id:"np4", name:"Triangle Mirror-Work Neck Patch (Design 1)", desc:"Green border, colorful patchwork", price:350, img:"images/np4.jpg", order:4},
+  {category:"neckpatch", id:"np5", name:"Round Mirror-Work Neck Patch (Design 1)", desc:"Magenta-pink spiral design", price:350, img:"images/np5.jpg", order:5},
+  {category:"neckpatch", id:"np6", name:"Yoke Style Neck Patch (Design 1)", desc:"Purple-orange-red, for both shoulders", price:650, img:"images/np6.jpg", order:6},
+  {category:"neckpatch", id:"np7", name:"Triangle Mirror-Work Neck Patch (Design 2)", desc:"Maroon border, red-black patchwork", price:350, img:"images/np7.jpg", order:7},
+  {category:"neckpatch", id:"np8", name:"Yoke Style Neck Patch (Design 2)", desc:"Green-red-grey patchwork", price:650, img:"images/np8.jpg", order:8},
+  {category:"neckpatch", id:"np9", name:"Round Mirror-Work Neck Patch (Design 2)", desc:"Purple-blue spiral design", price:350, img:"images/np9.jpg", order:9},
+  {category:"neckpatch", id:"np10", name:"Yoke Style Neck Patch (Design 3)", desc:"Red-green, with shells and coins", price:650, img:"images/np10.jpg", order:10},
+  {category:"neckpatch", id:"np11", name:"Square Mirror-Work Neck Patch (Design 3)", desc:"Purple border, crystal mirror work", price:450, img:"images/np11.jpg", order:11},
+  {category:"neckpatch", id:"np12", name:"Square Mirror-Work Neck Patch (Design 4)", desc:"White border, with shell tassels", price:450, img:"images/np12.jpg", order:12},
+  {category:"neckpatch", id:"np13", name:"Triangle Mirror-Work Neck Patch (Design 3)", desc:"Maroon patchwork design", price:350, img:"images/np13.jpg", order:13},
+  {category:"neckpatch", id:"np14", name:"Yoke Style Neck Patch (Design 4)", desc:"Yellow-purple-red, with shells and coins", price:650, img:"images/np14.jpg", order:14},
+  {category:"neckpatch", id:"np15", name:"Square Mirror-Work Neck Patch (Design 5)", desc:"Maroon-red mirror work", price:450, img:"images/np15.jpg", order:15},
+  {category:"neckpatch", id:"np16", name:"Square Mirror-Work Neck Patch (Design 6)", desc:"Colorful mirror, with shell tassels", price:450, img:"images/np16.jpg", order:16},
+  {category:"neckpatch", id:"np17", name:"Full U-Collar Neck Patch", desc:"Full neckline design, mirror work", price:800, img:"images/np17.jpg", order:17},
+
+  {category:"cover", id:"c1", name:"Pearl Radha-Krishna Cover (with Keychain)", desc:"Silver finish, peacock feather design", price:1450, img:"images/c1.jpg", order:1},
+  {category:"cover", id:"c2", name:"Pearl Radha-Krishna Cover", desc:"With charms, premium finish", price:1450, img:"images/c2.jpg", order:2},
+  {category:"cover", id:"c3", name:"Golden Radha-Krishna Cover (with Keychain)", desc:"Gold finish, chandelier style", price:1450, img:"images/c3.jpg", order:3},
+
+  {category:"material", id:"p6", name:"Triangle Mirror-Work Patch", desc:"Handmade, colorful embroidery", price:150, img:"images/p6.jpg", order:1},
+  {category:"material", id:"p7", name:"Square Mirror-Work Patch", desc:"Traditional Kutchi embroidery", price:150, img:"images/p7.jpg", order:2},
+  {category:"material", id:"p8", name:"Rectangle Mirror-Work Patch", desc:"Vibrant color combination", price:150, img:"images/p8.jpg", order:3},
+  {category:"material", id:"p9", name:"Heart Mirror-Work Patch", desc:"Perfect for gifts and decor", price:150, img:"images/p9.jpg", order:4}
+];
+
+function seedProducts(){
+  if(allProducts.length > 0){
+    if(!confirm("Products already exist in the database. Importing again may create duplicates. Continue anyway?")) return;
+  }
+  const btn = document.querySelector("#seedBox button");
+  btn.disabled = true; btn.textContent = "Importing...";
+  const batch = db.batch();
+  SEED_PRODUCTS.forEach(function(p){
+    const ref = db.collection("products").doc();
+    const data = Object.assign({}, p, {active:true});
+    batch.set(ref, data);
+  });
+  batch.commit().then(function(){
+    btn.disabled = false; btn.textContent = "Import Current Products";
+    loadProducts();
+  }).catch(function(err){
+    btn.disabled = false; btn.textContent = "Import Current Products";
+    alert("Error importing: "+err.message);
+  });
+}
+</script>
+</body>
+</html>

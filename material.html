@@ -87,13 +87,13 @@
 <script src="firebase-config.js"></script>
 <script src="cart.js"></script>
 <script>
-const miscProducts = [
+const miscProductsFallback = [
   {id:"p6", name:"Triangle Mirror-Work Patch", desc:"Handmade, colorful embroidery", price:150, img:"images/p6.jpg"},
   {id:"p7", name:"Square Mirror-Work Patch", desc:"Traditional Kutchi embroidery", price:150, img:"images/p7.jpg"},
   {id:"p8", name:"Rectangle Mirror-Work Patch", desc:"Vibrant color combination", price:150, img:"images/p8.jpg"},
   {id:"p9", name:"Heart Mirror-Work Patch", desc:"Perfect for gifts and decor", price:150, img:"images/p9.jpg"}
 ];
-renderProducts("grid-misc", miscProducts);
+loadCategoryProducts("grid-misc", "material", miscProductsFallback);
 </script>
 </body>
 </html>
