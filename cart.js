@@ -126,6 +126,19 @@ function closeCart(){
   document.getElementById("drawer").classList.remove("open");
 }
 
+function openMenu(){
+  const nav = document.getElementById("navOverlay");
+  const drawer = document.getElementById("navDrawer");
+  if(nav) nav.classList.add("open");
+  if(drawer) drawer.classList.add("open");
+}
+function closeMenu(){
+  const nav = document.getElementById("navOverlay");
+  const drawer = document.getElementById("navDrawer");
+  if(nav) nav.classList.remove("open");
+  if(drawer) drawer.classList.remove("open");
+}
+
 function buildOrderText(ids){
   let msg = "Hello, I would like to order the following items:\n\n";
   let total = 0;

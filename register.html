@@ -40,6 +40,9 @@
 
 <header>
   <div class="head-row">
+    <button class="menu-btn" onclick="openMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
     <a href="index.html" class="brand">
       <img src="images/logo.jpg" alt="The Sahajanand Creation">
       <span class="brand-name">The Sahajanand Creation</span>
@@ -65,6 +68,26 @@
   </div>
 </nav>
 
+
+
+<div class="nav-overlay" id="navOverlay" onclick="closeMenu()"></div>
+<div class="nav-drawer" id="navDrawer">
+  <div class="nav-drawer-head">
+    <span>Menu</span>
+    <button onclick="closeMenu()">✕</button>
+  </div>
+  <div class="nav-drawer-body">
+    <a href="index.html">Home</a>
+    <a href="lace.html">Lace</a>
+    <a href="neckpiece.html">Neckpiece</a>
+    <a href="neck-patch.html">Neck Patch</a>
+    <a href="cover.html">Phone Cover</a>
+    <a href="material.html">Material</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</div>
 
 <div class="page-head">
   <h1 class="disp">Create a New Account</h1>
