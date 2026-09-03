@@ -115,7 +115,7 @@
       <div class="auth-msg" id="loginMsg"></div>
     </form>
 
-    <div class="auth-switch">New here? <a href="register.html">Create an Account</a></div>
+    <div class="auth-switch">New here? <a href="register.html" id="toRegisterLink">Create an Account</a></div>
   </div>
 </main>
 
@@ -170,7 +170,9 @@ document.getElementById("loginForm").addEventListener("submit", function(e){
 
   auth.signInWithEmailAndPassword(email, password)
     .then(function(){
-      window.location.href = "account.html";
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get("redirect");
+      window.location.href = redirect ? redirect : "account.html";
     })
     .catch(function(err){
       let text = "Incorrect email or password.";
@@ -201,6 +203,15 @@ document.getElementById("forgotLink").addEventListener("click", function(){
       msgEl.className = "auth-msg error";
     });
 });
+
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const redirect = params.get("redirect");
+  if(redirect){
+    const link = document.getElementById("toRegisterLink");
+    if(link) link.href = "register.html?redirect=" + encodeURIComponent(redirect);
+  }
+})();
 </script>
 
 </body>

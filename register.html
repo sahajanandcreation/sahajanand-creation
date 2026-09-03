@@ -120,7 +120,7 @@
       <div class="auth-msg" id="regMsg"></div>
     </form>
 
-    <div class="auth-switch">Already have an account? <a href="login.html">Log In</a></div>
+    <div class="auth-switch">Already have an account? <a href="login.html" id="toLoginLink">Log In</a></div>
   </div>
 </main>
 
@@ -188,7 +188,9 @@ document.getElementById("registerForm").addEventListener("submit", function(e){
     .then(function(){
       msgEl.textContent = "Account created! Redirecting...";
       msgEl.className = "auth-msg success";
-      setTimeout(function(){ window.location.href = "account.html"; }, 900);
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get("redirect");
+      setTimeout(function(){ window.location.href = redirect ? redirect : "account.html"; }, 900);
     })
     .catch(function(err){
       let text = "Something went wrong, please try again.";
@@ -201,6 +203,15 @@ document.getElementById("registerForm").addEventListener("submit", function(e){
       btn.textContent = "Create Account";
     });
 });
+
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const redirect = params.get("redirect");
+  if(redirect){
+    const link = document.getElementById("toLoginLink");
+    if(link) link.href = "login.html?redirect=" + encodeURIComponent(redirect);
+  }
+})();
 </script>
 
 </body>

@@ -2,6 +2,10 @@ const WHATSAPP_NUMBER = "917862061524";
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOUL53mZhFCxosebEV9t53jdXpCdeR0EVW9UsTKy2Akg-U2dA--tQFfRYQ8k6Q7Nk1/exec";
 
 let cart = {};
+try{
+  const savedCart = sessionStorage.getItem("sc_cart");
+  if(savedCart) cart = JSON.parse(savedCart);
+}catch(e){}
 
 function renderProducts(gridId, productList){
   const el = document.getElementById(gridId);
@@ -115,6 +119,8 @@ function updateCartUI(){
   const total = ids.reduce((s,id)=>s+cart[id].price*cart[id].qty,0);
   const totalEl = document.getElementById("totalAmt");
   if(totalEl) totalEl.textContent = "₹"+total;
+
+  try{ sessionStorage.setItem("sc_cart", JSON.stringify(cart)); }catch(e){}
 }
 
 function openCart(){
@@ -228,6 +234,12 @@ function sendOrder(){
   const ids = Object.keys(cart);
   if(ids.length === 0){
     alert("Please add a product to the cart first");
+    return;
+  }
+  if(!window.currentUser){
+    alert("Please login first to place your order.");
+    const currentPage = (window.location.pathname.split("/").pop()) || "index.html";
+    window.location.href = "login.html?redirect=" + encodeURIComponent(currentPage);
     return;
   }
   const msg = buildOrderText(ids);
